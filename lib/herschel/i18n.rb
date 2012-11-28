@@ -7,7 +7,7 @@ I18n.backend.load_translations
 module Herschel
   module I18n
     def t(key, options = {})
-      ::I18n.t key, options.merge(scope: 'herschel')
+      ::I18n.t key, options.merge(scope: 'herschel', raise: true)
     end
   end
 end
