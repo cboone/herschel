@@ -18,6 +18,11 @@ module Herschel
            negatable: false,
            desc: t('cli.switches.quiet')
 
+    flag [:d, :directory],
+         arg_name: 'PATH',
+         default_value: Dir.pwd,
+         desc: t('cli.flags.directory')
+
     pre do |global_options, command, options, args|
       set_log_level global_options[:verbose], global_options[:quiet]
     end

@@ -2,6 +2,10 @@ en:
   herschel:
     cli:
       description: ''
+
+      flags:
+        directory: 'The working directory'
+
       switches:
         quiet: 'Quiet mode'
         verbose: 'Verbose mode'
