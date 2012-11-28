@@ -22,6 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
 
   gem.add_runtime_dependency 'gli', '>= 2.5.0'
+  gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'methadone', '>= 1.2.2'
 
   gem.platform = Gem::Platform::RUBY
