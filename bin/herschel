@@ -2,5 +2,5 @@
 require 'gli'
 require 'herschel'
 
-exit Herschel::App.run ARGV
+exit Herschel::CLI.run ARGV
 
