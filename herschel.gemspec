@@ -1,15 +1,16 @@
 # -*- encoding: utf-8 -*-
 require File.join([File.dirname(__FILE__), 'lib', 'herschel', 'version.rb'])
+require 'i18n'
 
 Gem::Specification.new do |gem|
-  gem.name = 'herschel'
+  gem.name = I18n.t('herschel.gem.name')
   gem.version = Herschel::VERSION
-  gem.author = 'Christopher Boone'
-  gem.email = 'chris@hypsometry.com'
-  gem.homepage = 'https://github.com/cboone/herschel'
+  gem.author = I18n.t('herschel.gem.author')
+  gem.email = I18n.t('herschel.gem.email_address')
+  gem.homepage = I18n.t('herschel.gem.home_page')
 
-  gem.description = ''
-  gem.summary = ''
+  gem.description = I18n.t('herschel.gem.description')
+  gem.summary = I18n.t('herschel.gem.summary')
 
   gem.require_paths << %w(lib)
   gem.files = `git ls-files`.split($\)

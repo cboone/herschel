@@ -1,0 +1,16 @@
+en:
+  herschel:
+    cli:
+      description: ''
+      switches:
+        quiet: 'Quiet mode'
+        verbose: 'Verbose mode'
+        version: 'Display the current version number'
+
+    gem:
+      author: 'Christopher Boone'
+      description: ''
+      email_address: 'chris@hypsometry.com'
+      home_page: 'https://github.com/cboone/herschel'
+      name: 'herschel'
+      summary: ''

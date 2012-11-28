@@ -4,6 +4,8 @@ module Herschel
   class CLI
     extend GLI::App
     include Methadone::CLILogging
+    extend Herschel::I18n
+    include Herschel::I18n
 
     class << self
       attr_accessor :log_level
@@ -11,10 +13,10 @@ module Herschel
 
     switch [:v, :verbose],
            negatable: false,
-           desc: 'Verbose mode'
+           desc: t('cli.switches.verbose')
     switch [:q, :quiet],
            negatable: false,
-           desc: 'Quiet mode'
+           desc: t('cli.switches.quiet')
 
     pre do |global_options, command, options, args|
       set_log_level global_options[:verbose], global_options[:quiet]
@@ -28,11 +30,11 @@ module Herschel
       end
     end
 
-    program_desc ''
+    program_desc t('cli.description')
 
     @version = Herschel::VERSION
     switch :version,
            negatable: false,
-           desc: 'Display the current version number'
+           desc: t('cli.switches.version')
   end
 end
