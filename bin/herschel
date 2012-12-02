@@ -2,5 +2,10 @@
 require 'gli'
 require 'herschel'
 
+if c_index = (ARGV.index('-c') || ARGV.index('--configuration'))
+  path = File.expand_path ARGV[c_index + 1]
+  Herschel::CLI.instance_variable_set :@config_file, path
+end
+
 exit Herschel::CLI.run ARGV
 

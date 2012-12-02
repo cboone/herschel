@@ -18,17 +18,22 @@ module Herschel
            negatable: false,
            desc: t('cli.switches.quiet')
 
-    flag [:d, :directory],
-         arg_name: 'PATH',
-         default_value: Dir.new(::Dir.pwd),
-         type: Dir,
-         desc: t('cli.flags.directory')
     flag [:a, :'allowed-file-extensions'],
          arg_name: 'EXT1[,EXT2..]',
          negatable: false,
          default_value: t('cli.flags.allowed-file-extensions.default'),
          type: Array,
          desc: t('cli.flags.allowed-file-extensions.description')
+    flag [:d, :directory],
+         arg_name: 'PATH',
+         default_value: Dir.new(::Dir.pwd),
+         type: Dir,
+         desc: t('cli.flags.directory')
+    flag [:c, :configuration],
+         arg_name: 'PATH',
+         negatable: false,
+         default_value: './herschel.yml',
+         desc: t('cli.flags.configuration')
 
     pre do |global_options, command, options, arguments|
       global_options.tap do |go|

@@ -4,10 +4,11 @@ en:
       description: ''
 
       flags:
-        directory: 'The working directory'
         allowed-file-extensions:
           default: '.jpg,.png'
           description: 'List of allowed file extensions - comma separated'
+        configuration: 'Path to the configuration file'
+        directory: 'Path to the source directory'
 
       switches:
         quiet: 'Quiet mode'
