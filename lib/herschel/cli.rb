@@ -20,11 +20,16 @@ module Herschel
 
     flag [:d, :directory],
          arg_name: 'PATH',
-         default_value: Dir.pwd,
+         default_value: Dir.new(::Dir.pwd),
+         type: Dir,
          desc: t('cli.flags.directory')
 
     pre do |global_options, command, options, args|
       set_log_level global_options[:verbose], global_options[:quiet]
+    end
+
+    accept Dir do |path|
+      Dir.new path
     end
 
     def self.set_log_level verbose = nil, quiet = nil

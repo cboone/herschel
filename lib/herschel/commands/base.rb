@@ -11,10 +11,12 @@ module Herschel
         self.new(global_options, options, arguments).run
       end
 
-      attr_accessor :global_options, :options, :arguments
+      attr_reader :source_directory
+      attr_accessor :arguments, :global_options, :options
 
       def initialize(global_options, options, arguments)
         @global_options = global_options
+        @source_directory = global_options[:directory]
         @options = options
         @arguments = arguments
       end
