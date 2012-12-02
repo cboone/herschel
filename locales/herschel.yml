@@ -1,6 +1,10 @@
 en:
   herschel:
     cli:
+      commands:
+        analyze:
+          description: ''
+
       description: ''
 
       flags:

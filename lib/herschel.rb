@@ -18,4 +18,5 @@ require 'herschel/dir'
 
 require 'herschel/application/base'
 require 'herschel/commands/base'
+require 'herschel/commands/analyze'
 require 'herschel/cli'

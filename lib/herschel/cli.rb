@@ -35,6 +35,11 @@ module Herschel
          default_value: './herschel.yml',
          desc: t('cli.flags.configuration')
 
+    command :analyze do |c|
+      c.desc t('cli.commands.analyze.description')
+      c.action &Commands::Analyze.action
+    end
+
     pre do |global_options, command, options, arguments|
       global_options.tap do |go|
         set_log_level go[:v], go[:q]
