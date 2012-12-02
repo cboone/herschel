@@ -4,12 +4,9 @@ module Herschel
   class CLI
     extend GLI::App
     include Methadone::CLILogging
-    extend Herschel::I18n
-    include Herschel::I18n
-
-    class << self
-      attr_accessor :log_level
-    end
+    extend I18n
+    include I18n
+    extend Support
 
     switch [:v, :verbose],
            negatable: false,

@@ -1,7 +1,45 @@
 require 'spec_helper'
 
-describe Herschel::CLI do
-  let(:cli) { Herschel::CLI }
+describe Herschel::CLI::Support do
+  let(:cli) { Class.new }
+
+  before do
+    cli.extend Herschel::CLI::Support
+    cli.singleton_class.instance_eval do
+      attr_accessor :log_level, :logger
+    end
+  end
+
+  describe '.simplify_options' do
+    let(:options) { {
+      d: 'path',
+      'd' => 'path',
+      directory: 'path',
+      'directory' => 'path',
+      f: 'bar',
+      'f' => 'bar',
+      foo: 'bar',
+      'foo' => 'bar',
+      :'template-directory' => 'path'
+    } }
+
+    let(:flags) { {
+      d: {},
+      :'template-directory' => {}
+    } }
+
+    let(:switches) { {
+      v: {},
+      :'another-switch' => {}
+    } }
+
+    before { cli.simplify_options options, flags, switches }
+    subject { options }
+    it { should == {
+      d: 'path',
+      :'template-directory' => 'path'
+    } }
+  end
 
   describe '.set_log_level' do
     let(:logger) { Methadone::CLILogger.new }
