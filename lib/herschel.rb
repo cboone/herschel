@@ -1,3 +1,8 @@
+if ENV['DEVELOPMENT']
+  require 'pry'
+  require 'pry-nav'
+end
+
 require 'gli'
 require 'methadone/cli_logger'
 require 'methadone/cli_logging'
