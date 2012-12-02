@@ -2,11 +2,17 @@
 require 'gli'
 require 'herschel'
 
-path = if c_index = (ARGV.index('-c') || ARGV.index('--configuration'))
-  File.expand_path ARGV[c_index + 1]
-else
-  File.expand_path './herschel.yml'
+if d_index = (ARGV.index('-d') || ARGV.index('--directory'))
+  FileUtils.cd ARGV[d_index + 1]
+  ARGV[d_index + 1] = './'
 end
+
+path = if c_index = (ARGV.index('-c') || ARGV.index('--configuration'))
+         File.expand_path ARGV[c_index + 1]
+       else
+         File.expand_path './herschel.yml'
+       end
+
 Herschel::CLI.instance_variable_set :@config_file, path if File.exists? path
 
 exit Herschel::CLI.run ARGV

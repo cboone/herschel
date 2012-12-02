@@ -13,6 +13,8 @@ en:
           description: 'List of image_types image file extensions - comma separated'
         configuration: 'Path to the configuration file'
         directory: 'Path to the source directory'
+        output-directory: 'Path to the directory where the compiled site will go'
+        root-template: 'Filename of the template used for the root page'
         template-directory: 'Path to the template directory'
 
       switches:

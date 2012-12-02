@@ -13,6 +13,14 @@ module Herschel
       @image_types.include? path.extname
     end
 
+    def template?(path)
+      !!Tilt[path]
+    rescue LoadError => exception
+      handler = exception.to_s.sub(/\A.*-- /, '')
+      debug "template handler (#{handler}) not found for: #{path}"
+      false
+    end
+
     def new_file_or_dir(path)
       path = Pathname.new path
       return if path.basename.to_s[0] == '.'
@@ -22,6 +30,8 @@ module Herschel
       elsif path.file?
         if image? path
           File.new path, file_system: self
+        elsif template? path
+          Template.new path, file_system: self
         end
       end
     end

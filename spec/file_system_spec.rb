@@ -37,6 +37,33 @@ describe Herschel::FileSystem do
     end
   end
 
+  describe '#template?' do
+    let(:file_system) { Herschel::FileSystem.new }
+    let(:path) { file.path }
+
+    after do
+      file.close
+      file.unlink
+    end
+
+    subject { file_system.template? path }
+
+    context 'when the file extension is a registered and loaded template type' do
+      let(:file) { Tempfile.new ['herschel', '.html.slim'] }
+      it { should == true }
+    end
+
+    context 'when the file extension is a registered and unloaded template type' do
+      let(:file) { Tempfile.new ['herschel', '.css.less'] }
+      it { should == false }
+    end
+
+    context 'when the file extension is not a template type' do
+      let(:file) { Tempfile.new ['herschel', '.txt'] }
+      it { should == false }
+    end
+  end
+
   describe '#new_file_or_dir' do
     let(:file_system) { Herschel::FileSystem.new }
 
@@ -90,6 +117,31 @@ describe Herschel::FileSystem do
       end
 
       context 'the extension of which is not on the white list' do
+        it { should be_nil }
+      end
+    end
+
+    context 'when given a template path' do
+      let(:file_system) { Herschel::FileSystem.new }
+      let(:path) { file.path }
+
+      after do
+        file.close
+        file.unlink
+      end
+
+      context 'the handler for which is registered and loaded' do
+        let(:file) { Tempfile.new ['herschel', '.html.slim'] }
+
+        it { should be_a Herschel::Template }
+        its(:path) { should == path }
+        its('template.file') { should == path }
+        its(:file_system) { should == file_system }
+      end
+
+      context 'the handler for which is not registered or loaded' do
+        let(:file) { Tempfile.new ['herschel', '.css.less'] }
+
         it { should be_nil }
       end
     end

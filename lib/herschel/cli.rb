@@ -23,7 +23,7 @@ module Herschel
          type: Pathname
     flag [:d, :directory],
          arg_name: 'PATH',
-         default_value: Directory.new(::Dir.pwd),
+         default_value: './',
          desc: t('cli.flags.directory'),
          type: Directory
     flag [:'image-types'],
@@ -32,6 +32,17 @@ module Herschel
          desc: t('cli.flags.image-types.description'),
          negatable: false,
          type: Array
+    flag [:'output-directory'],
+         arg_name: 'PATH',
+         default_value: './site',
+         desc: t('cli.flags.output-directory'),
+         negatable: false,
+         type: Directory
+    flag :'root-template',
+         arg_name: 'FILENAME',
+         default_value: 'root.html.slim',
+         desc: t('cli.flags.root-template'),
+         negatable: false
     flag :'template-directory',
          arg_name: 'PATH',
          default_value: './templates',

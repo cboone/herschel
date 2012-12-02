@@ -11,12 +11,14 @@ module Herschel
         self.new(global_options, options, arguments).run
       end
 
-      attr_reader :source_directory
+      attr_reader :source_directory, :target_directory, :template_directory
       attr_accessor :arguments, :global_options, :options
 
       def initialize(global_options, options, arguments)
         @global_options = global_options
         @source_directory = global_options[:d]
+        @target_directory = global_options[:'output-directory']
+        @template_directory = global_options[:'template-directory']
         @options = options
         @arguments = arguments
       end

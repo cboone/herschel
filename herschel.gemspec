@@ -25,6 +25,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'gli', '>= 2.5.0'
   gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'methadone', '>= 1.2.2'
+  gem.add_runtime_dependency 'slim'
+  gem.add_runtime_dependency 'tilt'
 
   gem.platform = Gem::Platform::RUBY
 end
