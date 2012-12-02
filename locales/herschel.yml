@@ -8,9 +8,9 @@ en:
       description: ''
 
       flags:
-        allowed-file-extensions:
+        image-types:
           default: '.jpg,.png'
-          description: 'List of allowed file extensions - comma separated'
+          description: 'List of image_types image file extensions - comma separated'
         configuration: 'Path to the configuration file'
         directory: 'Path to the source directory'
         template-directory: 'Path to the template directory'

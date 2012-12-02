@@ -15,12 +15,6 @@ module Herschel
            negatable: false,
            desc: t('cli.switches.quiet')
 
-    flag [:a, :'allowed-file-extensions'],
-         arg_name: 'EXT1[,EXT2..]',
-         default_value: t('cli.flags.allowed-file-extensions.default'),
-         desc: t('cli.flags.allowed-file-extensions.description'),
-         negatable: false,
-         type: Array
     flag [:c, :configuration],
          arg_name: 'PATH',
          default_value: './herschel.yml',
@@ -32,6 +26,12 @@ module Herschel
          default_value: Directory.new(::Dir.pwd),
          desc: t('cli.flags.directory'),
          type: Directory
+    flag [:'image-types'],
+         arg_name: 'EXT1[,EXT2..]',
+         default_value: t('cli.flags.image-types.default'),
+         desc: t('cli.flags.image-types.description'),
+         negatable: false,
+         type: Array
     flag :'template-directory',
          arg_name: 'PATH',
          default_value: './templates',
@@ -50,7 +50,7 @@ module Herschel
         set_log_level go[:v], go[:q]
         process_accepts go, accepts, flags
 
-        go[:file_system] = FileSystem.new allowed: go[:a]
+        go[:file_system] = FileSystem.new image_types: go[:'image-types']
         go[:d].file_system = go[:file_system]
       end
     end
