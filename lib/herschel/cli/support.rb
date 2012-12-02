@@ -8,6 +8,16 @@ module Herschel
         options.select! { |key| allowed_keys.include? key }
       end
 
+      def process_accepts(options, accepts, canonical_options)
+        options.each do |key, value|
+          if option_config = canonical_options[key]
+            if (type = option_config.type) && !(value.is_a? type) && (converter = accepts[type])
+              options[key] = converter.call value
+            end
+          end
+        end
+      end
+
       def set_log_level verbose = nil, quiet = nil
         if verbose || quiet
           level = Methadone::CLILogger::FATAL if quiet
