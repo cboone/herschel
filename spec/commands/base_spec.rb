@@ -25,7 +25,7 @@ describe Herschel::Commands::Base do
   describe '#initialize' do
     let(:arguments) { stub }
     let(:directory) { stub }
-    let(:global_options) { {directory: directory} }
+    let(:global_options) { {d: directory} }
     let(:options) { stub }
 
     subject { Herschel::Commands::Base.new global_options, options, arguments }

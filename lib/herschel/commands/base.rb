@@ -16,7 +16,7 @@ module Herschel
 
       def initialize(global_options, options, arguments)
         @global_options = global_options
-        @source_directory = global_options[:directory]
+        @source_directory = global_options[:d]
         @options = options
         @arguments = arguments
       end

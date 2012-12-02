@@ -46,6 +46,7 @@ module Herschel
 
         go[:a] = go[:a].split(',') if go[:a].is_a? String
         go[:file_system] = FileSystem.new allowed: go[:a]
+        go[:d] = Dir.new go[:d] if go[:d].is_a? String
         go[:d].file_system = go[:file_system]
       end
     end
