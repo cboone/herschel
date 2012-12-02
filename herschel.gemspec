@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 require File.join([File.dirname(__FILE__), 'lib', 'herschel', 'version.rb'])
-require 'i18n'
+require File.join([File.dirname(__FILE__), 'lib', 'herschel', 'i18n.rb'])
 
 Gem::Specification.new do |gem|
   gem.name = I18n.t('herschel.gem.name')
