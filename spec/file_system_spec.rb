@@ -41,7 +41,7 @@ describe Herschel::FileSystem do
       let(:path) { Dir.mktmpdir }
       after { FileUtils.remove_entry_secure path }
 
-      it { should be_a Herschel::Dir }
+      it { should be_a Herschel::Directory }
       its(:path) { should == path }
       its(:file_system) { should == file_system }
     end

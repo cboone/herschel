@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Herschel::Dir do
+describe Herschel::Directory do
   describe '#path and #to_s' do
     let(:path) { File.expand_path '~' }
-    subject { Herschel::Dir.new '~' }
+    subject { Herschel::Directory.new '~' }
     its(:path) { should == path }
     its(:to_s) { should == path }
   end
@@ -12,17 +12,17 @@ describe Herschel::Dir do
     let(:file_system) { Herschel::FileSystem.new }
 
     context 'when given a file system' do
-      subject { Herschel::Dir.new '~', file_system: file_system }
+      subject { Herschel::Directory.new '~', file_system: file_system }
       its(:file_system) { should == file_system }
     end
 
     context 'when not given a file system' do
-      subject { Herschel::Dir.new '~' }
+      subject { Herschel::Directory.new '~' }
       its(:file_system) { should be_a Herschel::FileSystem }
     end
 
     context 'when given a file system after initialization' do
-      let(:dir) { Herschel::Dir.new '~' }
+      let(:dir) { Herschel::Directory.new '~' }
       before { dir.file_system = file_system }
       subject { dir }
       its(:file_system) { should == file_system }
@@ -33,7 +33,7 @@ describe Herschel::Dir do
     let(:file_system) { Herschel::FileSystem.new }
     let(:first_child) { 'first child' }
     let(:second_child) { 'second child' }
-    let(:dir) { Herschel::Dir.new '/tmp', file_system: file_system }
+    let(:dir) { Herschel::Directory.new '/tmp', file_system: file_system }
 
     before do
       Pathname.any_instance.stub(:each_child).and_return do |&block|
@@ -50,7 +50,7 @@ describe Herschel::Dir do
   end
 
   describe '#graph' do
-    let(:dir) { Herschel::Dir.new './fixtures/graph' }
+    let(:dir) { Herschel::Directory.new './fixtures/graph' }
     before do
       dir.stub(:each).and_yield stub(graph: 'children')
     end

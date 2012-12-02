@@ -29,9 +29,9 @@ module Herschel
          type: Pathname
     flag [:d, :directory],
          arg_name: 'PATH',
-         default_value: Dir.new(::Dir.pwd),
+         default_value: Directory.new(::Dir.pwd),
          desc: t('cli.flags.directory'),
-         type: Dir
+         type: Directory
     flag :'template-directory',
          arg_name: 'PATH',
          default_value: './templates',
@@ -59,8 +59,8 @@ module Herschel
       string.split(',')
     end
 
-    accept Dir do |path|
-      Dir.new path
+    accept Directory do |path|
+      Directory.new path
     end
 
     accept Pathname do |path|

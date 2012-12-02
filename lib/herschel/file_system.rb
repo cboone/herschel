@@ -18,7 +18,7 @@ module Herschel
       return if path.basename.to_s[0] == '.'
 
       if path.directory?
-        Dir.new path, file_system: self
+        Directory.new path, file_system: self
       elsif path.file?
         return unless allowed_file_extensions.include? path.extname
         File.new path, file_system: self

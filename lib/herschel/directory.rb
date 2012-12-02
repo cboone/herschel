@@ -1,7 +1,7 @@
 require 'herschel'
 
 module Herschel
-  class Dir
+  class Directory
     include Enumerable
 
     attr_accessor :file_system
