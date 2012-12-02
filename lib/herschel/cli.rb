@@ -17,33 +17,40 @@ module Herschel
 
     flag [:a, :'allowed-file-extensions'],
          arg_name: 'EXT1[,EXT2..]',
-         negatable: false,
          default_value: t('cli.flags.allowed-file-extensions.default'),
-         type: Array,
-         desc: t('cli.flags.allowed-file-extensions.description')
+         desc: t('cli.flags.allowed-file-extensions.description'),
+         negatable: false,
+         type: Array
+    flag [:c, :configuration],
+         arg_name: 'PATH',
+         default_value: './herschel.yml',
+         desc: t('cli.flags.configuration'),
+         negatable: false,
+         type: Pathname
     flag [:d, :directory],
          arg_name: 'PATH',
          default_value: Dir.new(::Dir.pwd),
-         type: Dir,
-         desc: t('cli.flags.directory')
-    flag [:c, :configuration],
+         desc: t('cli.flags.directory'),
+         type: Dir
+    flag :'template-directory',
          arg_name: 'PATH',
+         default_value: './templates',
+         desc: t('cli.flags.template-directory'),
          negatable: false,
-         default_value: './herschel.yml',
-         desc: t('cli.flags.configuration')
+         type: Pathname
 
+    desc t('cli.commands.analyze.description')
     command :analyze do |c|
-      c.desc t('cli.commands.analyze.description')
       c.action &Commands::Analyze.action
     end
 
     pre do |global_options, command, options, arguments|
       global_options.tap do |go|
+        simplify_options go, flags, switches
         set_log_level go[:v], go[:q]
+        process_accepts go, accepts, flags
 
-        go[:a] = go[:a].split(',') if go[:a].is_a? String
         go[:file_system] = FileSystem.new allowed: go[:a]
-        go[:d] = Dir.new go[:d] if go[:d].is_a? String
         go[:d].file_system = go[:file_system]
       end
     end
@@ -56,12 +63,8 @@ module Herschel
       Dir.new path
     end
 
-    def self.set_log_level verbose = nil, quiet = nil
-      if verbose || quiet
-        level = Methadone::CLILogger::FATAL if quiet
-        level = Methadone::CLILogger::DEBUG if verbose
-        @log_level = logger.level = level
-      end
+    accept Pathname do |path|
+      Pathname.new ::File.expand_path path
     end
 
     program_desc t('cli.description')

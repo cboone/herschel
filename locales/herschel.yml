@@ -3,7 +3,7 @@ en:
     cli:
       commands:
         analyze:
-          description: ''
+          description: 'Display the file structure, as it would be used by other commands'
 
       description: ''
 
@@ -13,6 +13,7 @@ en:
           description: 'List of allowed file extensions - comma separated'
         configuration: 'Path to the configuration file'
         directory: 'Path to the source directory'
+        template-directory: 'Path to the template directory'
 
       switches:
         quiet: 'Quiet mode'
