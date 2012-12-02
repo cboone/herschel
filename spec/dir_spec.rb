@@ -1,16 +1,39 @@
 require 'spec_helper'
 
 describe Herschel::Dir do
-  describe '#path' do
+  describe '#path and #to_s' do
     let(:path) { File.expand_path '~' }
     subject { Herschel::Dir.new '~' }
     its(:path) { should == path }
+    its(:to_s) { should == path }
+  end
+
+  describe '#file_system' do
+    let(:file_system) { Herschel::FileSystem.new }
+
+    context 'when given a file system' do
+      subject { Herschel::Dir.new '~', file_system: file_system }
+      its(:file_system) { should == file_system }
+    end
+
+    context 'when not given a file system' do
+      subject { Herschel::Dir.new '~' }
+      its(:file_system) { should be_a Herschel::FileSystem }
+    end
+
+    context 'when given a file system after initialization' do
+      let(:dir) { Herschel::Dir.new '~' }
+      before { dir.file_system = file_system }
+      subject { dir }
+      its(:file_system) { should == file_system }
+    end
   end
 
   describe '#each' do
+    let(:file_system) { Herschel::FileSystem.new }
     let(:first_child) { 'first child' }
     let(:second_child) { 'second child' }
-    let(:dir) { Herschel::Dir.new '/tmp' }
+    let(:dir) { Herschel::Dir.new '/tmp', file_system: file_system }
 
     before do
       Pathname.any_instance.stub(:each_child).and_return do |&block|
@@ -18,8 +41,8 @@ describe Herschel::Dir do
           block.call child
         end
       end
-      Herschel::FileSystem.should_receive(:new_file_or_dir).with(first_child).and_return(first_child)
-      Herschel::FileSystem.should_receive(:new_file_or_dir).with(second_child).and_return(second_child)
+      file_system.stub(:new_file_or_dir).with(first_child).and_return(first_child)
+      file_system.stub(:new_file_or_dir).with(second_child).and_return(second_child)
     end
 
     subject { dir.map &:to_s }
@@ -35,6 +58,6 @@ describe Herschel::Dir do
     subject { dir.graph }
 
     its(:first) { should =~ /\/graph$/ }
-    its(:last){should == ['children'] }
+    its(:last) { should == ['children'] }
   end
 end

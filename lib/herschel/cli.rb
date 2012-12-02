@@ -23,9 +23,25 @@ module Herschel
          default_value: Dir.new(::Dir.pwd),
          type: Dir,
          desc: t('cli.flags.directory')
+    flag [:a, :'allowed-file-extensions'],
+         arg_name: 'EXT1[,EXT2..]',
+         negatable: false,
+         default_value: t('cli.flags.allowed-file-extensions.default'),
+         type: Array,
+         desc: t('cli.flags.allowed-file-extensions.description')
 
-    pre do |global_options, command, options, args|
-      set_log_level global_options[:verbose], global_options[:quiet]
+    pre do |global_options, command, options, arguments|
+      global_options.tap do |go|
+        set_log_level go[:v], go[:q]
+
+        go[:a] = go[:a].split(',') if go[:a].is_a? String
+        go[:file_system] = FileSystem.new allowed: go[:a]
+        go[:d].file_system = go[:file_system]
+      end
+    end
+
+    accept Array do |string|
+      string.split(',')
     end
 
     accept Dir do |path|

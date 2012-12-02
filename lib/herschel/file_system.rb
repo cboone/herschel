@@ -2,21 +2,26 @@ require 'herschel'
 
 module Herschel
   class FileSystem
-    DEFAULT_ALLOWED_FILE_EXTENSIONS = %w( .jpg .png )
+    attr_reader :allowed_file_extensions
 
-    def self.allowed_file_extensions
-      DEFAULT_ALLOWED_FILE_EXTENSIONS
+    def initialize(options = {})
+      @allowed_file_extensions = options[:allowed] || []
     end
 
-    def self.new_file_or_dir(path)
+    def allowed?(path)
+      path = Pathname.new path
+      @allowed_file_extensions.include? path.extname
+    end
+
+    def new_file_or_dir(path)
       path = Pathname.new path
       return if path.basename.to_s[0] == '.'
 
       if path.directory?
-        Dir.new path
+        Dir.new path, file_system: self
       elsif path.file?
         return unless allowed_file_extensions.include? path.extname
-        File.new path
+        File.new path, file_system: self
       end
     end
   end

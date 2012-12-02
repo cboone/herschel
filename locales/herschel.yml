@@ -5,6 +5,9 @@ en:
 
       flags:
         directory: 'The working directory'
+        allowed-file-extensions:
+          default: '.jpg,.png'
+          description: 'List of allowed file extensions - comma separated'
 
       switches:
         quiet: 'Quiet mode'
