@@ -78,6 +78,12 @@ module Herschel
       Pathname.new ::File.expand_path path
     end
 
+    on_error do |exception|
+      debug "#{exception.class}: #{exception.to_s}"
+      debug exception.backtrace.join("\n")
+      false
+    end
+
     program_desc t('cli.description')
 
     @version = Herschel::VERSION
