@@ -49,6 +49,11 @@ module Herschel
          desc: t('cli.flags.template-directory'),
          negatable: false,
          type: Pathname
+    flag :'working-directory',
+         arg_name: 'PATH',
+         desc: t('cli.flags.working-directory'),
+         negatable: false,
+         type: Pathname
 
     desc t('cli.commands.analyze.description')
     command :analyze do |c|

@@ -27,10 +27,12 @@ describe Herschel::Commands::Base do
     let(:directory) { stub }
     let(:output_directory) { stub }
     let(:template_directory) { stub }
+    let(:working_directory) { stub }
     let(:global_options) { {
       d: directory,
       :'output-directory' => output_directory,
-      :'template-directory' => template_directory
+      :'template-directory' => template_directory,
+      :'working-directory' => working_directory
     } }
     let(:options) { stub }
 
@@ -42,5 +44,6 @@ describe Herschel::Commands::Base do
     its(:target_directory) { should == output_directory }
     its(:source_directory) { should == directory }
     its(:template_directory) { should == template_directory }
+    its(:working_directory) { should == working_directory }
   end
 end

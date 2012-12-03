@@ -10,6 +10,7 @@ module Herschel
         debug "source directory:   #{source_directory}"
         debug "target directory:   #{target_directory}"
         debug "template directory: #{template_directory}"
+        debug "working directory:  #{working_directory}"
         debug ""
         info source_directory.graph.join("\n")
       end
