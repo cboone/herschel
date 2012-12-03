@@ -10,7 +10,7 @@ module Herschel
 
       def process_accepts(options, accepts, canonical_options)
         options.each do |key, value|
-          if option_config = canonical_options[key]
+          if value && (option_config = canonical_options[key])
             if (type = option_config.type) && !(value.is_a? type) && (converter = accepts[type])
               options[key] = converter.call value
             end
