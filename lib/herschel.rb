@@ -15,6 +15,7 @@ require 'slim'
 require 'herschel/version.rb'
 
 require 'herschel/i18n'
+require 'herschel/argv'
 require 'herschel/application/base'
 
 require 'herschel/file_system'

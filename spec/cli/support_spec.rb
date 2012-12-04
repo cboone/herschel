@@ -1,88 +1,51 @@
 require 'spec_helper'
 
 describe Herschel::CLI::Support do
-  let(:cli) { Class.new }
-
-  before do
-    cli.extend Herschel::CLI::Support
-    cli.singleton_class.instance_eval do
-      attr_accessor :log_level, :logger
-    end
-  end
-
-  describe '.simplify_options' do
-    let(:options) { {
-      d: 'path',
-      'd' => 'path',
-      directory: 'path',
-      'directory' => 'path',
-      f: 'bar',
-      'f' => 'bar',
-      foo: 'bar',
-      'foo' => 'bar',
-      :'template-directory' => 'path'
-    } }
-
-    let(:flags) { {
-      d: {},
-      :'template-directory' => {}
-    } }
-
-    let(:switches) { {
-      v: {},
-      :'another-switch' => {}
-    } }
-
-    before { cli.simplify_options options, flags, switches }
-    subject { options }
-    it { should == {
-      d: 'path',
-      :'template-directory' => 'path'
-    } }
-  end
-
   describe '.set_log_level' do
-    let(:logger) { Methadone::CLILogger.new }
+    let(:logger) { double.stub(:level=) }
     let(:default) { Methadone::CLILogger::INFO }
     let(:quiet) { Methadone::CLILogger::FATAL }
     let(:verbose) { Methadone::CLILogger::DEBUG }
+    let(:cli) { double(logger: logger, :log_level= => nil) }
 
-    before do
-      cli.log_level = nil
-      cli.logger = logger
-    end
+    before { cli.extend Herschel::CLI::Support }
 
-    after do
-      cli.instance_variable_set :@log_level, nil
-      cli.logger = Methadone::CLILogger.new
-    end
+    subject { cli.log_level }
 
     context 'when told nothing' do
-      before { cli.set_log_level }
+      before do
+        logger.should_not_receive(:level=)
+        cli.should_not_receive(:log_level=)
+      end
 
-      specify { cli.log_level.should be_nil }
-      specify { cli.logger.level.should == default }
+      specify { cli.set_log_level }
     end
 
     context 'when told to use verbose mode' do
-      before { cli.set_log_level true }
+      before do
+        logger.should_receive(:level=).with(verbose)
+        cli.should_receive(:log_level=).with(verbose)
+      end
 
-      specify { cli.log_level.should == verbose }
-      specify { cli.logger.level.should == verbose }
+      specify { cli.set_log_level true }
     end
 
     context 'when told to use quiet mode' do
-      before { cli.set_log_level nil, true }
+      before do
+        logger.should_receive(:level=).with(quiet)
+        cli.should_receive(:log_level=).with(quiet)
+      end
 
-      specify { cli.log_level.should == quiet }
-      specify { cli.logger.level.should == quiet }
+      specify { cli.set_log_level nil, true }
     end
 
     context 'when told to use verbose and quiet mode' do
-      before { cli.set_log_level true, true }
+      before do
+        logger.should_receive(:level=).with(verbose)
+        cli.should_receive(:log_level=).with(verbose)
+      end
 
-      specify { cli.log_level.should == verbose }
-      specify { cli.logger.level.should == verbose }
+      specify { cli.set_log_level true, true }
     end
   end
 end
