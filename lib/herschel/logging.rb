@@ -2,11 +2,7 @@ require 'herschel'
 
 module Herschel
   module Logging
-    def included(klass)
-      klass.instance_eval do
-        attr_accessor :log_level
-      end
-    end
+    attr_accessor :log_level
 
     def set_log_level verbose = nil, quiet = nil
       if verbose || quiet

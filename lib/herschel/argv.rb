@@ -14,7 +14,7 @@ module Herschel
         config_path = ::File.expand_path argv[c_index + 1]
       else
         config_path = ::File.expand_path './herschel.yml'
-        argv += ['-c', config_path]
+        argv.unshift '-c', config_path
       end
 
       return argv, config_path

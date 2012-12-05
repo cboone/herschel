@@ -6,14 +6,14 @@ describe Herschel::Argv do
       let(:argv) { ['-v', '-d', 'path'] }
       before { FileUtils.should_receive(:cd).with('path') }
       subject { Herschel::Argv.preprocess(argv)[0] }
-      its([2]) { should == './' }
+      its([4]) { should == './' }
     end
 
     context 'when --directory is passed' do
       let(:argv) { ['-v', '--directory', 'path'] }
       before { FileUtils.should_receive(:cd).with('path') }
       subject { Herschel::Argv.preprocess(argv)[0] }
-      its([2]) { should == './' }
+      its([4]) { should == './' }
     end
 
     context 'when -c is passed' do
@@ -49,8 +49,8 @@ describe Herschel::Argv do
 
       describe 'argv' do
         subject { Herschel::Argv.preprocess(argv)[0] }
-        its([1]) { should == '-c' }
-        its([2]) { should == Dir.pwd + '/herschel.yml' }
+        its([0]) { should == '-c' }
+        its([1]) { should == Dir.pwd + '/herschel.yml' }
       end
 
       describe 'path' do
