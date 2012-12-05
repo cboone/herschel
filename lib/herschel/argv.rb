@@ -20,14 +20,14 @@ module Herschel
       return argv, config_path
     end
 
-    def simplify_options!
+    def simplify_options!(options = {})
       allowed_keys = [flags, switches].map(&:keys).flatten
       options.select! { |key| allowed_keys.include? key }
     end
 
-    def process_accepts!(options, accepts, canonical_options)
+    def process_accepts!(options)
       options.each do |key, value|
-        if value && (option_config = canonical_options[key])
+        if value && (option_config = flags[key])
           if (type = option_config.type) && !(value.is_a? type) && (converter = accepts[type])
             options[key] = converter.call value
           end

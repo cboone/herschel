@@ -6,7 +6,8 @@ module Herschel
     include Methadone::CLILogging
     extend I18n
     include I18n
-    extend Support
+    extend Logging
+    extend Argv
 
     switch [:v, :verbose],
            negatable: false,
@@ -62,9 +63,9 @@ module Herschel
 
     pre do |global_options, command, options, arguments|
       global_options.tap do |go|
-        simplify_options go, flags, switches
+        simplify_options! go
         set_log_level go[:v], go[:q]
-        process_accepts go, accepts, flags
+        process_accepts! go
 
         go[:file_system] = FileSystem.new image_types: go[:'image-types']
         go[:d].file_system = go[:file_system]

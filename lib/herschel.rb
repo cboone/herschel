@@ -25,5 +25,5 @@ require 'herschel/directory'
 
 require 'herschel/commands/base'
 require 'herschel/commands/analyze'
-require 'herschel/cli/support'
+require 'herschel/logging'
 require 'herschel/cli'

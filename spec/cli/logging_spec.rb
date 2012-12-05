@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Herschel::CLI::Support do
+describe Herschel::Logging do
   describe '.set_log_level' do
     let(:logger) { double.stub(:level=) }
     let(:default) { Methadone::CLILogger::INFO }
@@ -8,7 +8,7 @@ describe Herschel::CLI::Support do
     let(:verbose) { Methadone::CLILogger::DEBUG }
     let(:cli) { double(logger: logger, :log_level= => nil) }
 
-    before { cli.extend Herschel::CLI::Support }
+    before { cli.extend Herschel::Logging }
 
     subject { cli.log_level }
 

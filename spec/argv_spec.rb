@@ -87,7 +87,7 @@ describe Herschel::Argv do
 
     before do
       instance.extend Herschel::Argv
-      instance.simplify_options!
+      instance.simplify_options! options
     end
 
     subject { options }
