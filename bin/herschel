@@ -2,7 +2,7 @@
 require 'herschel'
 
 argv, config_path = Herschel::Argv.preprocess ARGV
-#exit Herschel::CLI.new(path).run argv
+#exit Herschel::CLI.new(config_path).run argv
 
 Herschel::CLI.instance_variable_set :@config_file, config_path if File.exists? config_path
 
