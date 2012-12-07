@@ -1,6 +1,9 @@
 if ENV['DEVELOPMENT']
   require 'pry'
+  require 'pry-coolline'
+  require 'pry-exception_explorer'
   require 'pry-nav'
+  require 'pry-stack_explorer'
 end
 
 require 'gli'
