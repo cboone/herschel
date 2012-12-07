@@ -1,6 +1,9 @@
 module Herschel
   class CLI
     module Preprocess
+      include Logging
+      include Argv
+
       def preprocess
         pre do |global_options, command, options, arguments|
           global_options.tap do |go|
