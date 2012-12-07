@@ -1,7 +1,7 @@
 module Herschel
   class CLI
     module Flags
-      def setup_flags
+      def declare_global_flags
         flag [:c, :configuration],
              arg_name: 'PATH',
              default_value: './herschel.yml',
