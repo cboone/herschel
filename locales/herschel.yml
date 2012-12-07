@@ -4,6 +4,8 @@ en:
       commands:
         analyze:
           description: 'Display the file structure, as it would be used by other commands'
+        debug-options:
+          description: 'Display the options passed in'
 
       description: ''
 

@@ -6,6 +6,7 @@ module Herschel
     include Methadone::CLILogging
     include I18n
     include Accepts
+    include Command::Setup
     include Errors
     include Flags
     include Preprocess
@@ -25,10 +26,8 @@ module Herschel
       preprocess
       program_desc t('cli.description')
 
-      desc t('cli.commands.analyze.description')
-      command :analyze do |c|
-        c.action &Commands::Analyze.action
-      end
+      declare_command :analyze
+      declare_command :'debug-options'
     end
   end
 end
