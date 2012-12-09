@@ -18,8 +18,6 @@ Gem::Specification.new do |gem|
   gem.test_files = gem.files.grep(%r{^spec/})
 
   gem.add_development_dependency 'pry'
-  gem.add_development_dependency 'pry-coolline'
-  gem.add_development_dependency 'pry-exception_explorer'
   gem.add_development_dependency 'pry-nav'
   gem.add_development_dependency 'pry-stack_explorer'
   gem.add_development_dependency 'rake'
