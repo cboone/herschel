@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.description = I18n.t('herschel.gem.description')
   gem.summary = I18n.t('herschel.gem.summary')
 
-  gem.require_paths << %w(lib)
+  gem.require_paths += %w(lib)
   gem.files = `git ls-files`.split($\)
   gem.executables = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
   gem.test_files = gem.files.grep(%r{^spec/})
