@@ -4,6 +4,8 @@ en:
       commands:
         analyze:
           description: ''
+        analyze-images:
+          description: ''
         analyze-templates:
           description: ''
         compile:

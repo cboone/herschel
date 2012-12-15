@@ -13,6 +13,30 @@ describe Herschel::FileSystem do
     specify { file_system.clean_up }
   end
 
+  describe '#source_directory' do
+    let(:file_system) {
+      Herschel::FileSystem.new source_directory: '/tmp/source'
+    }
+
+    subject { file_system.source_directory }
+
+    it { should be_a Herschel::Directory }
+    its(:to_s) { should == '/tmp/source' }
+    its(:file_system) { should == file_system}
+  end
+
+  describe '#target_directory' do
+    let(:file_system) {
+      Herschel::FileSystem.new target_directory: '/tmp/target'
+    }
+
+    subject { file_system.target_directory }
+
+    it { should be_a Herschel::Directory }
+    its(:to_s) { should == '/tmp/target' }
+    its(:file_system) { should == file_system}
+  end
+
   describe '#template_directory' do
     let(:file_system) {
       Herschel::FileSystem.new template_directory: '/tmp/templates'
@@ -22,6 +46,7 @@ describe Herschel::FileSystem do
 
     it { should be_a Herschel::Directory }
     its(:to_s) { should == '/tmp/templates' }
+    its(:file_system) { should == file_system}
   end
 
   describe '#templates' do

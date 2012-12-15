@@ -10,6 +10,14 @@ module Herschel
       working_directory.clean_up if @working_directory
     end
 
+    def source_directory
+      @source_directory ||= Directory.new options[:source_directory], file_system: self
+    end
+
+    def target_directory
+      @target_directory ||= Directory.new options[:target_directory], file_system: self
+    end
+
     def template?(path)
       !!Tilt[path]
     rescue LoadError => exception

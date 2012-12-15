@@ -35,6 +35,12 @@ module Herschel
 
     def analyze
       analyze_templates
+      analyze_images
+    end
+
+    def analyze_images
+      header 'IMAGES'
+      info columns 'source', file_system.source_directory.to_s
     end
 
     def analyze_templates
