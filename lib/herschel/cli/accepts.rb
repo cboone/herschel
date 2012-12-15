@@ -3,15 +3,11 @@ module Herschel
     module Accepts
       def declare_acceptable_classes
         accept Array do |string|
-          string.split(',')
-        end
-
-        accept Herschel::Directory do |path|
-          Herschel::Directory.new path
+          string.split ','
         end
 
         accept Pathname do |path|
-          Pathname.new ::File.expand_path path
+          Pathname.new path
         end
       end
     end

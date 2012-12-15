@@ -3,24 +3,31 @@ en:
     cli:
       commands:
         analyze:
-          description: 'Display the file structure, as it would be used by other commands'
+          description: ''
+        analyze-templates:
+          description: ''
+        compile:
+          description: 'Compile the project'
         debug-options:
           description: 'Display the options passed in'
 
       description: ''
 
       flags:
-        image-types:
-          default: '.jpg,.png'
-          description: 'List of image_types image file extensions - comma separated'
-        configuration: 'Path to the configuration file'
-        directory: 'Path to the source directory'
-        output-directory: 'Path to the directory where the compiled site will go'
-        root-template: 'Filename of the template used for the root page'
-        template-directory: 'Path to the template directory'
-        working-directory: 'Path to the working directory'
+#        image-types:
+#          default: '.jpg,.png'
+#          description: 'List of image_types image file extensions - comma separated'
+        configuration: 'Path to the configuration file (full or relative to the source directory)'
+        directory: 'Full path to the source directory'
+        output-directory: 'Path to the directory where the compiled site will go (full or relative to the source directory)'
+
+        template-directory: 'Path to the template directory (full or relative to the source directory)'
+        directory-template: 'Path to the template used for the directory pages (relative to the template directory)'
+        image-template: 'Path to the template used for the image pages (relative to the template directory)'
+        root-template: 'Path to the template used for the root page (relative to the template directory)'
 
       switches:
+        dry-run: 'Dry run - do not modify any files'
         quiet: 'Quiet mode'
         verbose: 'Verbose mode'
         version: 'Display the current version number'

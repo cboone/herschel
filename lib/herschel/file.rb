@@ -2,17 +2,25 @@ require 'herschel'
 
 module Herschel
   class File
-    attr_reader :file_system
+    attr_reader :file_system, :path, :root
 
     def initialize(path, options = {})
+      @options = options
       @path = Pathname.new ::File.expand_path path
-      @file_system = options[:file_system] || FileSystem.new
+      @file_system = options[:file_system]
+      @root = options[:root]
     end
 
-    def path
-      @path.to_s
+    def relative_path
+      path.relative_path_from root.path
     end
-    alias_method :graph, :path
-    alias_method :to_s, :path
+
+    def to_s
+      path.to_s
+    end
+
+    private
+
+    attr_reader :options
   end
 end

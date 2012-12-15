@@ -6,14 +6,15 @@ module Herschel
       argv = original_argv.dup
 
       if d_index = (argv.index('-d') || argv.index('--directory'))
-        FileUtils.cd argv[d_index + 1]
-        argv[d_index + 1] = './'
+        d_path = ::File.expand_path argv[d_index + 1]
+        FileUtils.cd d_path
+        argv[d_index + 1] = d_path
       end
 
       if c_index = (argv.index('-c') || argv.index('--configuration'))
         config_path = ::File.expand_path argv[c_index + 1]
       else
-        config_path = ::File.expand_path './herschel.yml'
+        config_path = ::File.expand_path './config.yml'
         argv.unshift '-c', config_path
       end
 

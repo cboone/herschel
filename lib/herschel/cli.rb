@@ -9,7 +9,8 @@ module Herschel
     include Command::Setup
     include Errors
     include Flags
-    include Preprocess
+    include PostProcess
+    include PreProcess
     include Switches
     include Version
 
@@ -18,16 +19,23 @@ module Herschel
     def initialize(config_file_path)
       @config_file = config_file_path
 
+      program_desc t('cli.description')
+
       declare_acceptable_classes
       declare_global_flags
       declare_global_switches
       declare_version
+
       handle_errors
-      preprocess
-      program_desc t('cli.description')
+      pre_process
+      post_process
 
       declare_command :analyze
-      declare_command :'debug-options'
+
+      if ENV['DEVELOPMENT']
+        declare_command :'debug-options'
+        declare_command :'analyze-templates'
+      end
     end
   end
 end

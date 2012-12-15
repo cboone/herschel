@@ -3,21 +3,35 @@ require 'spec_helper'
 describe Herschel::Argv do
   describe '.preprocess' do
     context 'when -d is passed' do
-      let(:argv) { ['-v', '-d', 'path'] }
-      before { FileUtils.should_receive(:cd).with('path') }
+      let(:path) { './path' }
+      let(:expanded_path) { File.dirname(__FILE__) + '/path' }
+      let(:argv) { ['-v', '-d', path] }
+
+      before do
+        FileUtils.cd File.dirname(__FILE__)
+        FileUtils.should_receive(:cd).with(expanded_path)
+      end
+
       subject { Herschel::Argv.preprocess(argv)[0] }
-      its([4]) { should == './' }
+      its([4]) { should == expanded_path }
     end
 
     context 'when --directory is passed' do
-      let(:argv) { ['-v', '--directory', 'path'] }
-      before { FileUtils.should_receive(:cd).with('path') }
+      let(:path) { './path' }
+      let(:expanded_path) { File.dirname(__FILE__) + '/path' }
+      let(:argv) { ['-v', '--directory', path] }
+
+      before do
+        FileUtils.cd File.dirname(__FILE__)
+        FileUtils.should_receive(:cd).with(expanded_path)
+      end
+
       subject { Herschel::Argv.preprocess(argv)[0] }
-      its([4]) { should == './' }
+      its([4]) { should == expanded_path }
     end
 
     context 'when -c is passed' do
-      let(:argv) { ['-v', '-c', '/tmp/foo.yml'] }
+      let(:argv) { %w(-v -c /tmp/foo.yml) }
 
       describe 'argv' do
         subject { Herschel::Argv.preprocess(argv)[0] }
@@ -31,7 +45,7 @@ describe Herschel::Argv do
     end
 
     context 'when --configuration is passed' do
-      let(:argv) { ['-v', '--configuration', '/tmp/foo.yml'] }
+      let(:argv) { %w(-v --configuration /tmp/foo.yml) }
 
       describe 'argv' do
         subject { Herschel::Argv.preprocess(argv)[0] }
@@ -45,17 +59,17 @@ describe Herschel::Argv do
     end
 
     context 'when -c or --configuration are not passed' do
-      let(:argv) { ['-v'] }
+      let(:argv) { %w(-v) }
 
       describe 'argv' do
         subject { Herschel::Argv.preprocess(argv)[0] }
         its([0]) { should == '-c' }
-        its([1]) { should == Dir.pwd + '/herschel.yml' }
+        its([1]) { should == Dir.pwd + '/config.yml' }
       end
 
       describe 'path' do
         subject { Herschel::Argv.preprocess(argv)[1] }
-        it { should == Dir.pwd + '/herschel.yml' }
+        it { should == Dir.pwd + '/config.yml' }
       end
     end
   end

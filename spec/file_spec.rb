@@ -1,39 +1,44 @@
 require 'spec_helper'
 
 describe Herschel::File do
-  describe '#path, #graph, and #to_s' do
-    let(:file) { Tempfile.new 'herschel' }
-    let(:path) { File.expand_path file.path }
-
-    after do
-      file.close
-      file.unlink
-    end
-
-    subject { Herschel::File.new path }
-    its(:path) { should == path }
-    its(:graph) { should == path }
-    its(:to_s) { should == path }
+  describe '#file_system' do
+    let(:file_system) { stub }
+    subject { Herschel::File.new './fixtures/file', file_system: file_system }
+    its(:file_system) { should == file_system }
   end
 
-  describe '#file_system' do
-    let(:file) { Tempfile.new 'herschel' }
-    let(:path) { File.expand_path file.path }
+  describe '#path' do
+    let(:path) { './fixtures/file' }
+    let(:expanded_path) { File.expand_path path }
 
-    after do
-      file.close
-      file.unlink
-    end
+    subject { Herschel::File.new(path).path }
 
-    context 'when given a file system' do
-      let(:file_system) { Herschel::FileSystem.new }
-      subject { Herschel::File.new path, file_system: file_system }
-      its(:file_system) { should == file_system }
-    end
+    it { should be_a Pathname }
+    its(:to_s) { should == expanded_path }
+  end
 
-    context 'when not given a file system' do
-      subject { Herschel::File.new path }
-      its(:file_system) { should be_a Herschel::FileSystem }
-    end
+  describe '#relative_path' do
+    let(:root) { Herschel::Directory.new './fixtures', file_system: stub.as_null_object }
+    let(:file) { Herschel::File.new './fixtures/directory_one/file', root: root }
+
+    subject { file.relative_path }
+    it { should be_a Pathname }
+    its(:to_s) { should == 'directory_one/file' }
+  end
+
+  describe '#root' do
+    let(:root) { stub }
+    subject { Herschel::File.new './fixtures/file', root: root }
+    its(:root) { should == root }
+  end
+
+  describe '#to_s' do
+    let(:path) { './fixtures/file' }
+    let(:expanded_path) { File.expand_path path }
+
+    subject { Herschel::File.new(path).to_s }
+
+    it { should be_a String }
+    it { should == expanded_path }
   end
 end

@@ -6,7 +6,7 @@ module Herschel
 
     def initialize(path, options = {})
       super
-      @template = Tilt.new self.path
+      @template = Tilt.new self.to_s
     end
   end
 end
