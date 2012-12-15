@@ -27,7 +27,7 @@ module Herschel
                                       target_directory: go[:'output-directory'],
                                       template_directory: go[:'template-directory']
 
-      #debug_options
+      debug_options unless @commands.include? :debug_options
       @commands.each do |command|
         send command
       end
@@ -38,18 +38,18 @@ module Herschel
     end
 
     def analyze_templates
-      info file_system.templates.inspect
+      header 'TEMPLATES'
+      info columns 'templates', file_system.template_directory.to_s
+      file_system.templates.each do |name, file|
+        info columns name, file.to_s
+      end
     end
 
     def debug_options
-      debug "global options:     #{global_options.inspect}"
-      #debug ""
-      #debug "configuration:      #{global_options[:c]}"
-      #debug "source directory:   #{source_directory}"
-      #debug "target directory:   #{target_directory}"
-      #debug "template directory: #{template_directory}"
-      #debug "working directory:  #{working_directory}"
-      #debug ""
+      header 'GLOBAL OPTIONS'
+      global_options.each do |option, value|
+        debug columns option, value.inspect
+      end
     end
 
     module Setup
@@ -59,6 +59,18 @@ module Herschel
           c.action &Command.new(command_name).action
         end
       end
+    end
+
+    private
+
+    LOG_COLUMN_LENGTH = 20
+
+    def columns(description, content)
+      "#{description}: ".ljust(LOG_COLUMN_LENGTH) + content
+    end
+
+    def header(text)
+      debug "\n#{text}"
     end
   end
 end
