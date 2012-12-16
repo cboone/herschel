@@ -2,11 +2,16 @@ require 'herschel'
 
 module Herschel
   class Template < File
-    attr_reader :template
-
     def initialize(path, options = {})
       super
-      @template = Tilt.new self.to_s
+    end
+
+    def compile(rendering_scope)
+      template.render rendering_scope
+    end
+
+    def template
+      @template ||= Tilt.new self.to_s
     end
   end
 end

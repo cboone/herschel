@@ -31,11 +31,15 @@ module Herschel
       post_process
 
       declare_command :analyze
+      declare_command :compile
 
       if ENV['DEVELOPMENT']
-        declare_command :'debug-options'
+        declare_command :'analyze-file-system'
+        declare_command :'analyze-images'
         declare_command :'analyze-source'
         declare_command :'analyze-templates'
+        declare_command :'compile-root'
+        declare_command :'debug-options'
       end
     end
   end

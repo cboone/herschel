@@ -8,8 +8,12 @@ module Herschel
       @options = options.dup
     end
 
+    def assets_directory
+      @assets_directory ||= Directory.new options[:assets_directory], file_system: self
+    end
+
     def clean_up
-      working_directory.clean_up if @working_directory
+      working_directory.clean_up if working_directory?
     end
 
     def directory?(pathname)
@@ -17,7 +21,7 @@ module Herschel
     end
 
     def excluded_directories
-      [target_directory, template_directory]
+      @excluded_directories ||= [target_directory, template_directory]
     end
 
     def file?(pathname)
@@ -32,12 +36,16 @@ module Herschel
       directory.path.children.map do |child|
         child if image? child
       end.compact.map do |pathname|
-        Herschel::Image.new pathname, file_system: self, root: directory.root
+        Image.new pathname, file_system: self, root: directory.root
       end
     end
 
     def image_types
       @image_types ||= (options[:image_types] || [])
+    end
+
+    def meta_filename
+      @meta_filename ||= options[:meta_filename]
     end
 
     def source_directory
@@ -68,6 +76,19 @@ module Herschel
 
     def template_directory
       @template_directory ||= Directory.new options[:template_directory], file_system: self
+    end
+
+    def template_for(object)
+      case object
+        when Directory
+          if object.root?
+            templates[:root]
+          else
+            templates[:directory]
+          end
+        when Image
+          templates[:image]
+      end
     end
 
     def template_names
@@ -107,6 +128,10 @@ module Herschel
 
     def working_directory
       @working_directory ||= WorkingDirectory.new file_system: self
+    end
+
+    def working_directory?
+      !@working_directory.nil?
     end
 
     #def new_file_or_dir(path)

@@ -4,12 +4,18 @@ en:
       commands:
         analyze:
           description: ''
+        analyze-file-system:
+          description: ''
+        analyze-images:
+          description: ''
         analyze-source:
           description: ''
         analyze-templates:
           description: ''
         compile:
           description: 'Compile the project'
+        compile-root:
+          description: 'Compile the root page'
         debug-options:
           description: 'Display the options passed in'
 
@@ -17,13 +23,14 @@ en:
 
       flags:
         configuration: 'Path to the configuration file (absolute or relative to the source directory)'
-
+        meta: 'Name of the directory metadata file (relative to each directory)'
         image-types:
           default: '.jpg,.png'
           description: 'List of image file extensions (comma separated)'
 
-        source: 'Path to the source directory (absolute or relative the current directory)'
+        assets: 'Path to the assets directory (absolute or relative to the source directory)'
         output: 'Path to the directory where the compiled site will go (absolute or relative to the source directory)'
+        source: 'Path to the source directory (absolute or relative the current directory)'
         templates: 'Path to the template directory (absolute or relative to the source directory)'
 
         directory-template: 'Path to the template used for the directory pages (relative to the template directory)'

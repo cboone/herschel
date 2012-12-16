@@ -12,7 +12,7 @@ module Herschel
     end
 
     def relative_path
-      path.relative_path_from root.path
+      @relative_path ||= path.relative_path_from root.path
     end
 
     def to_s

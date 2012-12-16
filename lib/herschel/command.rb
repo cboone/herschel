@@ -20,7 +20,8 @@ module Herschel
       @arguments = arguments
 
       @global_options[:file_system] =
-        @file_system = FileSystem.new source_directory: go[:S],
+        @file_system = FileSystem.new assets_directory: go[:A],
+                                      source_directory: go[:S],
                                       target_directory: go[:O],
                                       template_directory: go[:T],
 
@@ -28,6 +29,7 @@ module Herschel
                                       image_template: go[:'image-template'],
                                       root_template: go[:'root-template'],
 
+                                      meta_filename: go[:m],
                                       image_types: go[:'image-types']
 
       debug_options unless @commands.include? :debug_options
@@ -37,8 +39,24 @@ module Herschel
     end
 
     def analyze
-      analyze_templates
+      analyze_file_system
+      analyze_images
       analyze_source
+      analyze_templates
+    end
+
+    def analyze_file_system
+      header 'FILE SYSTEM'
+      info columns 'assets', file_system.assets_directory.to_s
+      info columns 'source', file_system.source_directory.to_s
+      info columns 'target', file_system.target_directory.to_s
+      info columns 'templates', file_system.template_directory.to_s
+      info columns 'working', file_system.working_directory.to_s if file_system.working_directory?
+    end
+
+    def analyze_images
+      header 'IMAGES'
+      info columns 'image types', file_system.image_types.join(', ')
     end
 
     def analyze_source
@@ -60,6 +78,15 @@ module Herschel
       file_system.templates.each do |name, file|
         info columns name, file.to_s
       end
+    end
+
+    def compile
+      compile_root
+    end
+
+    def compile_root
+      header 'COMPILE - ROOT'
+      debug file_system.source_directory.compiled.inspect
     end
 
     def debug_options

@@ -8,7 +8,11 @@ module Herschel
              desc: t('cli.flags.configuration'),
              negatable: false,
              type: Pathname
-
+        flag [:m, :meta],
+             arg_name: 'FILENAME',
+             default_value: 'meta.yml',
+             desc: t('cli.flags.meta'),
+             negatable: false
         flag :'image-types',
              arg_name: 'EXT1[,EXT2..]',
              default_value: t('cli.flags.image-types.default'),
@@ -16,6 +20,12 @@ module Herschel
              negatable: false,
              type: Array
 
+        flag [:A, :assets],
+             arg_name: 'PATH',
+             default_value: 'assets',
+             desc: t('cli.flags.assets'),
+             negatable: false,
+             type: Pathname
         flag [:O, :output],
              arg_name: 'PATH',
              default_value: 'site',

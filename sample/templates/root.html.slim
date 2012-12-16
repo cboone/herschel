@@ -2,13 +2,13 @@ doctype 5
 html
 
 head
-  title Herschel sample
+  title = root.name
 
 body
   h1
-    a href='/' Herschel sample
+    a href=root.path = root.name
 
   - galleries.each do |gallery|
     a href=gallery.path
-      img src=gallery.image_path
-      span= gallery.title
+      /img src=gallery.image_path
+      span = gallery.name
