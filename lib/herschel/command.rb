@@ -82,11 +82,23 @@ module Herschel
 
     def compile
       compile_root
+      compile_directories
     end
 
     def compile_root
       header 'COMPILE - ROOT'
-      debug file_system.source_directory.compiled.inspect
+      debug columns 'from', file_system.source_directory.to_s
+      debug columns 'to', file_system.target_directory.to_s
+      debug file_system.source_directory.compiled
+    end
+
+    def compile_directories
+      header 'COMPILE - DIRECTORIES'
+      file_system.source_directory.directories.each do |directory|
+        debug columns 'from', directory.to_s
+        debug columns 'to', directory.target_path.to_s
+        debug directory.compiled
+      end
     end
 
     def debug_options

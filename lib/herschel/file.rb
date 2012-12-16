@@ -11,6 +11,10 @@ module Herschel
       @root = @options[:root]
     end
 
+    def absolute_url_path
+      @absolute_url_path ||= '/' + relative_path.to_s
+    end
+
     def relative_path
       @relative_path ||= path.relative_path_from root.path
     end

@@ -2,6 +2,9 @@ en:
   herschel:
     cli:
       commands:
+        debug-options:
+          description: 'Display the options passed in'
+
         analyze:
           description: ''
         analyze-file-system:
@@ -12,12 +15,13 @@ en:
           description: ''
         analyze-templates:
           description: ''
+
         compile:
           description: 'Compile the project'
+        compile-directories:
+          description: 'Compile the directories'
         compile-root:
           description: 'Compile the root page'
-        debug-options:
-          description: 'Display the options passed in'
 
       description: ''
 

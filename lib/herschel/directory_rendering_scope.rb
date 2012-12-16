@@ -4,10 +4,14 @@ module Herschel
       @directories ||= object.directories.map &:rendering_scope
     end
 
+    def images
+      @images ||= object.images.map &:rendering_scope
+    end
+
     alias_method :galleries, :directories
 
-    #def image_path
-    #object.images.first.path
-    #end
+    def image_path
+      images.first.path
+    end
   end
 end

@@ -64,6 +64,10 @@ module Herschel
       root == self
     end
 
+    def target_path
+      @target_path ||= file_system.target_directory.path + relative_path
+    end
+
     def template(file_name = nil)
       if file_name
         templates[templates.keys.find do |pathname|

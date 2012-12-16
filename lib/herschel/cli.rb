@@ -38,6 +38,7 @@ module Herschel
         declare_command :'analyze-images'
         declare_command :'analyze-source'
         declare_command :'analyze-templates'
+        declare_command :'compile-directories'
         declare_command :'compile-root'
         declare_command :'debug-options'
       end
