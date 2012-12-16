@@ -2,8 +2,7 @@ require 'herschel'
 
 module Herschel
   class Directory < Application::Base
-    attr_accessor :file_system
-    attr_reader :options, :path, :root
+    attr_reader :file_system, :options, :path, :root
 
     def initialize(path, options = {})
       @options = options.dup
@@ -25,12 +24,20 @@ module Herschel
       end
     end
 
+    def compile
+      @compiled_file ||= working_directory.create_file 'index.html', relative_path, compiled
+    end
+
     def compiled
       @compiled ||= template.compile rendering_scope
     end
 
     def directories
       @directories ||= file_system.subdirectories_within self
+    end
+
+    def finalize
+      @compiled_file.finalize
     end
 
     def images
@@ -84,6 +91,10 @@ module Herschel
 
     def to_s
       path.to_s
+    end
+
+    def working_directory
+      @working_directpry ||= options[:working_directory]
     end
   end
 end

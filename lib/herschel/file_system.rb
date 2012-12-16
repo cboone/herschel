@@ -28,6 +28,11 @@ module Herschel
       pathname.file? && visible?(pathname)
     end
 
+    def finalize(working_file, file_name, parent_path)
+      final_path = target_directory.path + parent_path + file_name
+      FileUtils.copy_file working_file.path, final_path
+    end
+
     def image?(pathname)
       file?(pathname) && image_types.include?(pathname.extname)
     end
@@ -49,7 +54,7 @@ module Herschel
     end
 
     def source_directory
-      @source_directory ||= Directory.new options[:source_directory], file_system: self
+      @source_directory ||= Directory.new options[:source_directory], file_system: self, working_directory: working_directory
     end
 
     def subdirectories_within(directory)
@@ -63,7 +68,11 @@ module Herschel
     end
 
     def target_directory
-      @target_directory ||= Directory.new options[:target_directory], file_system: self
+      return @target_directory if @target_directory
+
+      @target_directory = Directory.new options[:target_directory], file_system: self
+      FileUtils.mkpath @target_directory.path
+      @target_directory
     end
 
     def template?(path)

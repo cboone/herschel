@@ -6,8 +6,8 @@ module Herschel
 
     def initialize(path, options = {})
       @options = options.dup
-      @path = Pathname.new ::File.expand_path path
       @file_system = @options[:file_system]
+      @path = Pathname.new ::File.expand_path path
       @root = @options[:root]
     end
 

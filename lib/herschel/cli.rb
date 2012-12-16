@@ -32,6 +32,7 @@ module Herschel
 
       declare_command :analyze
       declare_command :compile
+      declare_command :images
 
       if ENV['DEVELOPMENT']
         declare_command :'analyze-file-system'

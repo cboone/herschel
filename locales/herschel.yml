@@ -23,6 +23,9 @@ en:
         compile-root:
           description: 'Compile the root page'
 
+        images:
+          description: 'Process the images'
+
       description: ''
 
       flags:
@@ -34,7 +37,7 @@ en:
 
         assets: 'Path to the assets directory (absolute or relative to the source directory)'
         output: 'Path to the directory where the compiled site will go (absolute or relative to the source directory)'
-        source: 'Path to the source directory (absolute or relative the current directory)'
+        source: 'Path to the source directory (absolute or relative to the current directory)'
         templates: 'Path to the template directory (absolute or relative to the source directory)'
 
         directory-template: 'Path to the template used for the directory pages (relative to the template directory)'

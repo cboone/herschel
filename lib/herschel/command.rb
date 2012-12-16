@@ -46,21 +46,23 @@ module Herschel
     end
 
     def analyze_file_system
-      header 'FILE SYSTEM'
+      debug 'FILE SYSTEM'
       info columns 'assets', file_system.assets_directory.to_s
       info columns 'source', file_system.source_directory.to_s
       info columns 'target', file_system.target_directory.to_s
       info columns 'templates', file_system.template_directory.to_s
       info columns 'working', file_system.working_directory.to_s if file_system.working_directory?
+      debug ''
     end
 
     def analyze_images
-      header 'IMAGES'
+      debug 'IMAGES'
       info columns 'image types', file_system.image_types.join(', ')
+      debug ''
     end
 
     def analyze_source
-      header 'SOURCE'
+      debug 'SOURCE'
       file_system.source_directory.tap do |source|
         info source.to_s
         source.directories.each do |directory|
@@ -70,14 +72,16 @@ module Herschel
           end
         end
       end
+      debug ''
     end
 
     def analyze_templates
-      header 'TEMPLATES'
+      debug 'TEMPLATES'
       info columns 'templates', file_system.template_directory.to_s
       file_system.templates.each do |name, file|
         info columns name, file.to_s
       end
+      debug ''
     end
 
     def compile
@@ -86,26 +90,43 @@ module Herschel
     end
 
     def compile_root
-      header 'COMPILE - ROOT'
+      debug 'COMPILE - ROOT'
+
+      compiled = file_system.source_directory.compile
+      file_system.source_directory.finalize
+
       debug columns 'from', file_system.source_directory.to_s
+      debug columns 'through', compiled.to_s
       debug columns 'to', file_system.target_directory.to_s
       debug file_system.source_directory.compiled
+      debug ''
     end
 
     def compile_directories
-      header 'COMPILE - DIRECTORIES'
+      debug 'COMPILE - DIRECTORIES'
+
       file_system.source_directory.directories.each do |directory|
+        compiled = file_system.compile directory
+
         debug columns 'from', directory.to_s
+        debug columns 'through', compiled.path
         debug columns 'to', directory.target_path.to_s
         debug directory.compiled
       end
+      debug ''
     end
 
     def debug_options
-      header 'GLOBAL OPTIONS'
+      debug 'GLOBAL OPTIONS'
       global_options.each do |option, value|
         debug columns option, value.inspect
       end
+      debug ''
+    end
+
+    def images
+      debug 'IMAGES'
+      debug ''
     end
 
     module Setup
@@ -123,10 +144,6 @@ module Herschel
 
     def columns(description, content)
       "#{description}: ".ljust(LOG_COLUMN_LENGTH) + content
-    end
-
-    def header(text)
-      debug "\n#{text}"
     end
   end
 end
