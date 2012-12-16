@@ -4,7 +4,7 @@ en:
       commands:
         analyze:
           description: ''
-        analyze-images:
+        analyze-source:
           description: ''
         analyze-templates:
           description: ''
@@ -16,14 +16,16 @@ en:
       description: ''
 
       flags:
-#        image-types:
-#          default: '.jpg,.png'
-#          description: 'List of image_types image file extensions - comma separated'
-        configuration: 'Path to the configuration file (full or relative to the source directory)'
-        directory: 'Full path to the source directory'
-        output-directory: 'Path to the directory where the compiled site will go (full or relative to the source directory)'
+        configuration: 'Path to the configuration file (absolute or relative to the source directory)'
 
-        template-directory: 'Path to the template directory (full or relative to the source directory)'
+        image-types:
+          default: '.jpg,.png'
+          description: 'List of image file extensions (comma separated)'
+
+        source: 'Path to the source directory (absolute or relative the current directory)'
+        output: 'Path to the directory where the compiled site will go (absolute or relative to the source directory)'
+        templates: 'Path to the template directory (absolute or relative to the source directory)'
+
         directory-template: 'Path to the template used for the directory pages (relative to the template directory)'
         image-template: 'Path to the template used for the image pages (relative to the template directory)'
         root-template: 'Path to the template used for the root page (relative to the template directory)'

@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Herschel::Directory do
+  describe '#directories' do
+    pending
+  end
+
   describe '#file_system' do
     let(:file_system) { stub }
 
@@ -23,6 +27,10 @@ describe Herschel::Directory do
 
       it { should == file_system }
     end
+  end
+
+  describe '#images' do
+    pending
   end
 
   describe '#parent' do

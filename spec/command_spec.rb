@@ -32,12 +32,12 @@ describe Herschel::Command do
     let(:working_directory) { stub }
 
     let(:global_options) { {
-      d: directory,
+      S: directory,
+      O: output_directory,
+      T: template_directory,
       :'directory-template' => directory_template,
       :'image-template' => image_template,
-      :'root-template' => root_template,
-      :'output-directory' => output_directory,
-      :'template-directory' => template_directory
+      :'root-template' => root_template
     } }
     let(:options) { stub }
     let(:arguments) { stub }

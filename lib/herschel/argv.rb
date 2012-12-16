@@ -5,14 +5,14 @@ module Herschel
     def self.preprocess(original_argv)
       argv = original_argv.dup
 
-      if d_index = (argv.index('-d') || argv.index('--directory'))
-        d_path = ::File.expand_path argv[d_index + 1]
-        FileUtils.cd d_path
-        argv[d_index + 1] = d_path
+      if source_index = (argv.index('-S') || argv.index('--source'))
+        source_path = ::File.expand_path argv[source_index + 1]
+        FileUtils.cd source_path
+        argv[source_index + 1] = source_path
       end
 
-      if c_index = (argv.index('-c') || argv.index('--configuration'))
-        config_path = ::File.expand_path argv[c_index + 1]
+      if config_index = (argv.index('-c') || argv.index('--configuration'))
+        config_path = ::File.expand_path argv[config_index + 1]
       else
         config_path = ::File.expand_path './config.yml'
         argv.unshift '-c', config_path

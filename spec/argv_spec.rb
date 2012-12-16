@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe Herschel::Argv do
   describe '.preprocess' do
-    context 'when -d is passed' do
+    context 'when -S is passed' do
       let(:path) { './path' }
       let(:expanded_path) { File.dirname(__FILE__) + '/path' }
-      let(:argv) { ['-v', '-d', path] }
+      let(:argv) { ['-v', '-S', path] }
 
       before do
         FileUtils.cd File.dirname(__FILE__)
@@ -16,10 +16,10 @@ describe Herschel::Argv do
       its([4]) { should == expanded_path }
     end
 
-    context 'when --directory is passed' do
+    context 'when --source is passed' do
       let(:path) { './path' }
       let(:expanded_path) { File.dirname(__FILE__) + '/path' }
-      let(:argv) { ['-v', '--directory', path] }
+      let(:argv) { ['-v', '--source', path] }
 
       before do
         FileUtils.cd File.dirname(__FILE__)
@@ -76,20 +76,20 @@ describe Herschel::Argv do
 
   describe '#simplify_options!' do
     let(:options) { {
-      d: 'path',
-      'd' => 'path',
-      directory: 'path',
-      'directory' => 'path',
+      S: 'path',
+      'S' => 'path',
+      source: 'path',
+      'source' => 'path',
       f: 'bar',
       'f' => 'bar',
       foo: 'bar',
       'foo' => 'bar',
-      :'template-directory' => 'path'
+      T: 'path'
     } }
 
     let(:flags) { {
-      d: {},
-      :'template-directory' => {}
+      S: {},
+      T: {}
     } }
 
     let(:switches) { {
@@ -107,8 +107,8 @@ describe Herschel::Argv do
     subject { options }
 
     it { should == {
-      d: 'path',
-      :'template-directory' => 'path'
+      S: 'path',
+      T: 'path'
     } }
   end
 

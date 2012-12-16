@@ -34,7 +34,7 @@ module Herschel
 
       if ENV['DEVELOPMENT']
         declare_command :'debug-options'
-        declare_command :'analyze-images'
+        declare_command :'analyze-source'
         declare_command :'analyze-templates'
       end
     end

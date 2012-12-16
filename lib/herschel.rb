@@ -21,8 +21,8 @@ require 'herschel/application/base'
 
 require 'herschel/file_system'
 require 'herschel/file'
+require 'herschel/image'
 require 'herschel/template'
-
 require 'herschel/directory'
 require 'herschel/temporary_directory'
 

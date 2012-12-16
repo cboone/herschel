@@ -5,10 +5,10 @@ module Herschel
     attr_reader :file_system, :path, :root
 
     def initialize(path, options = {})
-      @options = options
+      @options = options.dup
       @path = Pathname.new ::File.expand_path path
-      @file_system = options[:file_system]
-      @root = options[:root]
+      @file_system = @options[:file_system]
+      @root = @options[:root]
     end
 
     def relative_path

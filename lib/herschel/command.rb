@@ -20,12 +20,15 @@ module Herschel
       @arguments = arguments
 
       @global_options[:file_system] =
-        @file_system = FileSystem.new directory_template: go[:'directory-template'],
+        @file_system = FileSystem.new source_directory: go[:S],
+                                      target_directory: go[:O],
+                                      template_directory: go[:T],
+
+                                      directory_template: go[:'directory-template'],
                                       image_template: go[:'image-template'],
                                       root_template: go[:'root-template'],
-                                      source_directory: go[:d],
-                                      target_directory: go[:'output-directory'],
-                                      template_directory: go[:'template-directory']
+
+                                      image_types: go[:'image-types']
 
       debug_options unless @commands.include? :debug_options
       @commands.each do |command|
@@ -35,12 +38,20 @@ module Herschel
 
     def analyze
       analyze_templates
-      analyze_images
+      analyze_source
     end
 
-    def analyze_images
-      header 'IMAGES'
-      info columns 'source', file_system.source_directory.to_s
+    def analyze_source
+      header 'SOURCE'
+      file_system.source_directory.tap do |source|
+        info source.to_s
+        source.directories.each do |directory|
+          info directory.to_s
+          directory.images.each do |image|
+            info image.to_s
+          end
+        end
+      end
     end
 
     def analyze_templates

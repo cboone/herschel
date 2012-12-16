@@ -2,21 +2,23 @@ require 'herschel'
 
 module Herschel
   class Directory < Application::Base
-    #include Enumerable
-
     attr_accessor :file_system
-    attr_reader :parent, :path, :root
+    attr_reader :options, :parent, :path, :root
 
     def initialize(path, options = {})
-      @options = options
-      @parent = options[:parent]
+      @options = options.dup
+      @parent = @options[:parent]
       @path = Pathname.new ::File.expand_path path
-      @file_system = options[:file_system]
-      @root = options[:root] || self
+      @file_system = @options[:file_system]
+      @root = @options[:root] || self
     end
 
-    def to_s
-      path.to_s
+    def directories
+      @directories ||= file_system.subdirectories_within self
+    end
+
+    def images
+      @images ||= file_system.images_within self
     end
 
     def template(file_name)
@@ -26,37 +28,11 @@ module Herschel
     end
 
     def templates
-      @templates ||= find_templates
+      @templates ||= file_system.templates_within self
     end
 
-    #def each(&block)
-    #  @path.each_child do |child|
-    #    file_or_dir = file_system.new_file_or_dir child
-    #    block.call file_or_dir if file_or_dir
-    #  end
-    #end
-    #
-    #def graph
-    #  [path, map(&:graph)]
-    #end
-
-    private
-
-    attr_reader :options
-
-    def find_templates
-      patterns = Tilt.mappings.keys.map do |extension|
-        "#{path}/**/*.#{extension}"
-      end
-
-      files = Dir.glob(patterns).map do |path|
-        if file_system.template? path
-          file = Template.new(path, root: root)
-          [file.relative_path, file]
-        end
-      end.compact
-
-      Hash[files]
+    def to_s
+      path.to_s
     end
   end
 end
