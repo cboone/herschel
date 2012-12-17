@@ -48,17 +48,20 @@ module Herschel
              arg_name: 'FILENAME',
              default_value: 'directory.html.slim',
              desc: t('cli.flags.directory-template'),
-             negatable: false
+             negatable: false,
+             type: Pathname
         flag :'image-template',
              arg_name: 'FILENAME',
              default_value: 'image.html.slim',
              desc: t('cli.flags.image-template'),
-             negatable: false
+             negatable: false,
+             type: Pathname
         flag :'root-template',
              arg_name: 'FILENAME',
              default_value: 'root.html.slim',
              desc: t('cli.flags.root-template'),
-             negatable: false
+             negatable: false,
+             type: Pathname
       end
     end
   end

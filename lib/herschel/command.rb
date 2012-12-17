@@ -51,7 +51,6 @@ module Herschel
       info columns 'source', file_system.source_directory.to_s
       info columns 'target', file_system.target_directory.to_s
       info columns 'templates', file_system.template_directory.to_s
-      info columns 'working', file_system.working_directory.to_s if file_system.working_directory?
       debug ''
     end
 
@@ -92,13 +91,13 @@ module Herschel
     def compile_root
       debug 'COMPILE - ROOT'
 
-      compiled = file_system.source_directory.compile
+      file_system.source_directory.compile
       file_system.source_directory.finalize
 
       debug columns 'from', file_system.source_directory.to_s
-      debug columns 'through', compiled.to_s
+      debug columns 'through', file_system.source_directory.compiled_file.to_s
       debug columns 'to', file_system.target_directory.to_s
-      debug file_system.source_directory.compiled
+      debug file_system.source_directory.rendered
       debug ''
     end
 
@@ -106,12 +105,13 @@ module Herschel
       debug 'COMPILE - DIRECTORIES'
 
       file_system.source_directory.directories.each do |directory|
-        compiled = file_system.compile directory
+        directory.compile
+        directory.finalize
 
         debug columns 'from', directory.to_s
-        debug columns 'through', compiled.path
+        debug columns 'through', directory.compiled_file.to_s
         debug columns 'to', directory.target_path.to_s
-        debug directory.compiled
+        debug directory.rendered
       end
       debug ''
     end

@@ -24,12 +24,24 @@ module Herschel
       end
     end
 
-    def compile
-      @compiled_file ||= working_directory.create_file 'index.html', relative_path, compiled
+    def children
+      directories + images
     end
 
-    def compiled
-      @compiled ||= template.compile rendering_scope
+    def clean_up
+      compiled_file.clean_up if compiled?
+    end
+
+    def compile
+      compiled_file.content = render
+    end
+
+    def compiled?
+      !@compiled_file.nil?
+    end
+
+    def compiled_file
+      @compiled_file ||= WorkingFile.new 'index.html', relative_path, file_system: file_system
     end
 
     def directories
@@ -42,6 +54,10 @@ module Herschel
 
     def images
       @images ||= file_system.images_within self
+    end
+
+    def inspect
+      "#<#{self.class.name}:#{to_s}>"
     end
 
     def meta
@@ -63,6 +79,12 @@ module Herschel
       @relative_path ||= path.relative_path_from root.path
     end
 
+    def render
+      @rendered ||= template.render rendering_scope
+    end
+
+    alias_method :rendered, :render
+
     def rendering_scope
       @rendering_scope ||= DirectoryRenderingScope.new self
     end
@@ -75,26 +97,12 @@ module Herschel
       @target_path ||= file_system.target_directory.path + relative_path
     end
 
-    def template(file_name = nil)
-      if file_name
-        templates[templates.keys.find do |pathname|
-          pathname.to_s == file_name
-        end]
-      else
-        @template ||= file_system.template_for self
-      end
-    end
-
-    def templates
-      @templates ||= file_system.templates_within self
+    def template
+      @template ||= file_system.template_for self
     end
 
     def to_s
       path.to_s
-    end
-
-    def working_directory
-      @working_directpry ||= options[:working_directory]
     end
   end
 end

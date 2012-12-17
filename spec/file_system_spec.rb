@@ -1,19 +1,53 @@
 require 'spec_helper'
 
 describe Herschel::FileSystem do
-  describe '#clean_up' do
-    let(:file_system) { Herschel::FileSystem.new }
-    let(:temp) { stub }
+  describe '#assets_directory' do
+    pending
+  end
 
-    before do
-      file_system.instance_variable_set :@working_directory, temp
-      temp.should_receive :clean_up
+  describe '#clean_up' do
+    pending
+  end
+
+  describe '#directory?' do
+    pending
+  end
+
+  describe '#excluded_directories' do
+    pending
+  end
+
+  describe '#file' do
+    pending
+  end
+
+  describe '#finalize' do
+    pending
+  end
+
+  describe '#image?' do
+    pending
+  end
+
+  describe '#image_types' do
+    subject { file_system.image_types }
+
+    context 'when extensions are specified' do
+      let(:file_system) { Herschel::FileSystem.new image_types: ['.jpg'] }
+      it { should == ['.jpg'] }
     end
 
-    specify { file_system.clean_up }
+    context 'when extensions are not specified' do
+      let(:file_system) { Herschel::FileSystem.new }
+      it { should == [] }
+    end
   end
 
   describe '#images_within' do
+    pending
+  end
+
+  describe '#meta_filename' do
     pending
   end
 
@@ -85,6 +119,10 @@ describe Herschel::FileSystem do
     its(:file_system) { should == file_system }
   end
 
+  describe '#template_for' do
+    pending
+  end
+
   describe '#template_names' do
     pending
   end
@@ -129,130 +167,7 @@ describe Herschel::FileSystem do
     pending
   end
 
-  describe '#working_directory' do
-    let(:file_system) { Herschel::FileSystem.new }
-
-    subject { file_system.working_directory }
-
-    it { should be_a Herschel::WorkingDirectory }
+  describe '#visible?' do
+    pending
   end
-
-  #describe '#image_types' do
-  #  subject { file_system.image_types }
-  #
-  #  context 'when extensions are specified' do
-  #    let(:file_system) { Herschel::FileSystem.new image_types: ['.jpg'] }
-  #    it { should == ['.jpg'] }
-  #  end
-  #
-  #  context 'when extensions are not specified' do
-  #    let(:file_system) { Herschel::FileSystem.new }
-  #    it { should == [] }
-  #  end
-  #end
-  #
-  #describe '#image?' do
-  #  let(:file_system) { Herschel::FileSystem.new image_types: ['.jpg'] }
-  #  let(:path) { file.path }
-  #
-  #  after do
-  #    file.close
-  #    file.unlink
-  #  end
-  #
-  #  subject { file_system.image? path }
-  #
-  #  context 'when the file extension is an image type' do
-  #    let(:file) { Tempfile.new ['herschel', '.jpg'] }
-  #    it { should == true }
-  #  end
-  #
-  #  context 'when the file extension is not an image type' do
-  #    let(:file) { Tempfile.new ['herschel', '.txt'] }
-  #    it { should == false }
-  #  end
-  #end
-  #
-  #describe '#new_file_or_dir' do
-  #  let(:file_system) { Herschel::FileSystem.new }
-  #
-  #  subject { file_system.new_file_or_dir path }
-  #
-  #  context 'when given a visible directory path' do
-  #    let(:path) { Dir.mktmpdir }
-  #    after { FileUtils.remove_entry_secure path }
-  #
-  #    it { should be_a Herschel::Directory }
-  #    its(:path) { should == path }
-  #    its(:file_system) { should == file_system }
-  #  end
-  #
-  #  context 'when given an invisible path' do
-  #    let(:path) { Dir.mktmpdir '.hidden' }
-  #    after { FileUtils.remove_entry_secure path }
-  #
-  #    it { should be_nil }
-  #  end
-  #
-  #  context 'when given something that is not a file or directory' do
-  #    let(:link) { Tempfile.new 'herschel' }
-  #    let(:path) { link.path }
-  #
-  #    before { Pathname.any_instance.stub(:file?).and_return(false) }
-  #
-  #    after do
-  #      link.close
-  #      link.unlink
-  #    end
-  #
-  #    it { should be_nil }
-  #  end
-  #
-  #  context 'when given an image path' do
-  #    let(:file) { Tempfile.new ['herschel', '.jpg'] }
-  #    let(:path) { file.path }
-  #
-  #    after do
-  #      file.close
-  #      file.unlink
-  #    end
-  #
-  #    context 'the extension of which is on the white list' do
-  #      let(:file_system) { Herschel::FileSystem.new image_types: ['.jpg'] }
-  #
-  #      it { should be_a Herschel::File }
-  #      its(:path) { should == path }
-  #      its(:file_system) { should == file_system }
-  #    end
-  #
-  #    context 'the extension of which is not on the white list' do
-  #      it { should be_nil }
-  #    end
-  #  end
-  #
-  #  context 'when given a template path' do
-  #    let(:file_system) { Herschel::FileSystem.new }
-  #    let(:path) { file.path }
-  #
-  #    after do
-  #      file.close
-  #      file.unlink
-  #    end
-  #
-  #    context 'the handler for which is registered and loaded' do
-  #      let(:file) { Tempfile.new ['herschel', '.html.slim'] }
-  #
-  #      it { should be_a Herschel::Template }
-  #      its(:path) { should == path }
-  #      its('template.file') { should == path }
-  #      its(:file_system) { should == file_system }
-  #    end
-  #
-  #    context 'the handler for which is not registered or loaded' do
-  #      let(:file) { Tempfile.new ['herschel', '.css.less'] }
-  #
-  #      it { should be_nil }
-  #    end
-  #  end
-  #end
 end

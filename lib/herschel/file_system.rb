@@ -13,7 +13,10 @@ module Herschel
     end
 
     def clean_up
-      working_directory.clean_up if working_directory?
+      source_directory.children.each do |child|
+        child.clean_up
+      end
+      source_directory.clean_up
     end
 
     def directory?(pathname)
@@ -28,8 +31,9 @@ module Herschel
       pathname.file? && visible?(pathname)
     end
 
-    def finalize(working_file, file_name, parent_path)
-      final_path = target_directory.path + parent_path + file_name
+    def finalize(working_file)
+      final_path = target_directory.path + working_file.relative_path
+      FileUtils.mkpath final_path.dirname
       FileUtils.copy_file working_file.path, final_path
     end
 
@@ -54,7 +58,7 @@ module Herschel
     end
 
     def source_directory
-      @source_directory ||= Directory.new options[:source_directory], file_system: self, working_directory: working_directory
+      @source_directory ||= Directory.new options[:source_directory], file_system: self
     end
 
     def subdirectories_within(directory)
@@ -68,11 +72,7 @@ module Herschel
     end
 
     def target_directory
-      return @target_directory if @target_directory
-
-      @target_directory = Directory.new options[:target_directory], file_system: self
-      FileUtils.mkpath @target_directory.path
-      @target_directory
+      @target_directory ||= Directory.new options[:target_directory], file_system: self
     end
 
     def template?(path)
@@ -84,7 +84,12 @@ module Herschel
     end
 
     def template_directory
-      @template_directory ||= Directory.new options[:template_directory], file_system: self
+      @template_directory ||= TemplateDirectory.new options[:template_directory], file_system: self,
+                                                    template_names: {
+                                                      directory: options[:directory_template],
+                                                      image: options[:image_template],
+                                                      root: options[:root_template]
+                                                    }
     end
 
     def template_for(object)
@@ -100,62 +105,16 @@ module Herschel
       end
     end
 
-    def template_names
-      @template_names ||= {
-        directory: options[:directory_template],
-        image: options[:image_template],
-        root: options[:root_template]
-      }
-    end
-
     def templates
       @templates ||= {
-        directory: template_directory.template(template_names[:directory]),
-        image: template_directory.template(template_names[:image]),
-        root: template_directory.template(template_names[:root])
+        directory: template_directory.template_for(:directory),
+        image: template_directory.template_for(:image),
+        root: template_directory.template_for(:root)
       }
-    end
-
-    def templates_within(directory)
-      patterns = Tilt.mappings.keys.map do |extension|
-        "#{directory.to_s}/**/*.#{extension}"
-      end
-
-      files = Dir.glob(patterns).map do |path|
-        if template? path
-          file = Template.new(path, root: directory.root)
-          [file.relative_path, file]
-        end
-      end.compact
-
-      Hash[files]
     end
 
     def visible?(pathname)
       pathname.basename.to_s[0] != '.'
     end
-
-    def working_directory
-      @working_directory ||= WorkingDirectory.new file_system: self
-    end
-
-    def working_directory?
-      !@working_directory.nil?
-    end
-
-    #def new_file_or_dir(path)
-    #  path = Pathname.new path
-    #  return if path.basename.to_s[0] == '.'
-    #
-    #  if path.directory?
-    #    Directory.new path, file_system: self
-    #  elsif path.file?
-    #    if image? path
-    #      File.new path, file_system: self
-    #    elsif template? path
-    #      Template.new path, file_system: self
-    #    end
-    #  end
-    #end
   end
 end

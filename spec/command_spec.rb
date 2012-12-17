@@ -27,7 +27,6 @@ describe Herschel::Command do
     let(:directory) { stub }
     let(:output_directory) { stub }
     let(:template_directory) { stub }
-    let(:working_directory) { stub }
 
     let(:directory_template) { stub }
     let(:image_template) { stub }

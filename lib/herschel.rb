@@ -20,15 +20,12 @@ require 'herschel/version.rb'
 require 'herschel/i18n'
 require 'herschel/application/base'
 
-require 'herschel/file_system'
-
 require 'herschel/file'
 require 'herschel/working_file'
-
 require 'herschel/image'
-
 require 'herschel/directory'
-require 'herschel/working_directory'
+require 'herschel/template_directory'
+require 'herschel/file_system'
 
 require 'herschel/rendering_scope'
 require 'herschel/directory_rendering_scope'

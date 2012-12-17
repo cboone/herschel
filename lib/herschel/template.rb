@@ -6,7 +6,7 @@ module Herschel
       super
     end
 
-    def compile(rendering_scope)
+    def render(rendering_scope)
       template.render rendering_scope
     end
 

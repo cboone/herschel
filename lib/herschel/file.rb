@@ -15,6 +15,10 @@ module Herschel
       @absolute_url_path ||= '/' + relative_path.to_s
     end
 
+    def inspect
+      "#<#{self.class.name}:#{to_s}>"
+    end
+
     def relative_path
       @relative_path ||= path.relative_path_from root.path
     end

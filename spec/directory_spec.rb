@@ -5,6 +5,10 @@ describe Herschel::Directory do
     pending
   end
 
+  describe '#children' do
+    pending
+  end
+
   describe '#compiled' do
     pending
   end
@@ -26,14 +30,6 @@ describe Herschel::Directory do
     context 'when not given a file system' do
       let(:directory) { Herschel::Directory.new '~' }
       it { should be_nil }
-    end
-
-    context 'when given a file system after initialization' do
-      let(:directory) { Herschel::Directory.new '~' }
-
-      before { directory.file_system = file_system }
-
-      it { should == file_system }
     end
   end
 
