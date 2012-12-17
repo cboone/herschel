@@ -62,6 +62,7 @@ module Herschel
              desc: t('cli.flags.root-template'),
              negatable: false,
              type: Pathname
+
       end
     end
   end

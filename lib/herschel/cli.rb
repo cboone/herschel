@@ -31,6 +31,7 @@ module Herschel
       post_process
 
       declare_command :analyze
+      declare_command :assets
       declare_command :compile
       declare_command :images
 

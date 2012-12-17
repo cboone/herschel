@@ -16,6 +16,9 @@ en:
         analyze-templates:
           description: ''
 
+        assets:
+          description: 'Copy the assets directory into the target directory'
+
         compile:
           description: 'Compile the project'
         compile-directories:
@@ -45,9 +48,13 @@ en:
         root-template: 'Path to the template used for the root page (relative to the template directory)'
 
       switches:
+        assets: 'Copy the assets directory during compile'
+
         dry-run: 'Dry run - do not modify any files'
+
         quiet: 'Quiet mode'
         verbose: 'Verbose mode'
+
         version: 'Display the current version number'
 
     gem:

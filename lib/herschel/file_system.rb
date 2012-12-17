@@ -9,7 +9,7 @@ module Herschel
     end
 
     def assets_directory
-      @assets_directory ||= Directory.new options[:assets_directory], file_system: self
+      @assets_directory ||= Directory.new options[:assets_directory], file_system: self, root: options[:assets_directory].basename
     end
 
     def clean_up
@@ -32,9 +32,13 @@ module Herschel
     end
 
     def finalize(working_file)
-      final_path = target_directory.path + working_file.relative_path
+      final_path = working_file.target_path
       FileUtils.mkpath final_path.dirname
       FileUtils.copy_file working_file.path, final_path
+    end
+
+    def finalize_assets
+      FileUtils.cp_r assets_directory.path, target_directory.path
     end
 
     def image?(pathname)

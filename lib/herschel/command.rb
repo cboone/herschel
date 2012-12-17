@@ -2,7 +2,7 @@ require 'herschel'
 
 module Herschel
   class Command < Application::Base
-    attr_reader :arguments, :commands, :file_system, :global_options, :options
+    attr_reader :arguments, :commands, :file_system, :global_options, :include_assets, :options
 
     def initialize(*commands)
       @commands = commands.map do |command|
@@ -18,6 +18,8 @@ module Herschel
       @global_options = go = global_options
       @options = options
       @arguments = arguments
+
+      @include_assets = go[:'include-assets']
 
       @global_options[:file_system] =
         @file_system = FileSystem.new assets_directory: go[:A],
@@ -83,9 +85,19 @@ module Herschel
       debug ''
     end
 
+    def assets
+      debug 'ASSETS'
+
+      file_system.finalize_assets
+
+      debug columns 'from', file_system.assets_directory.path.to_s
+      debug columns 'to', (file_system.target_directory.path + file_system.assets_directory.path.basename).to_s
+    end
+
     def compile
       compile_root
       compile_directories
+      assets if include_assets
     end
 
     def compile_root
