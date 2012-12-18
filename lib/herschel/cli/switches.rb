@@ -2,9 +2,10 @@ module Herschel
   class CLI
     module Switches
       def declare_global_switches
-        switch :'include-assets',
-               default_value: true,
-               desc: t('cli.switches.assets')
+        switch :'skip-assets',
+               desc: t('cli.switches.include-assets')
+        switch :'skip-images',
+               desc: t('cli.switches.include-images')
 
         switch [:n, :'dry-run'],
                negatable: false,

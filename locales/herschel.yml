@@ -48,7 +48,8 @@ en:
         root-template: 'Path to the template used for the root page (relative to the template directory)'
 
       switches:
-        assets: 'Copy the assets directory during compile'
+        include-assets: 'Copy the assets directory during compile'
+        include-images: 'Process the images during compile'
 
         dry-run: 'Dry run - do not modify any files'
 
