@@ -7,15 +7,15 @@ module Herschel
         switch :'skip-images',
                desc: t('cli.switches.include-images')
 
+        switch :'use-local-file-paths',
+               desc: t('cli.switches.use-local-file-paths')
+
         switch [:n, :'dry-run'],
-               negatable: false,
                desc: t('cli.switches.dry-run')
 
         switch [:q, :quiet],
-               negatable: false,
                desc: t('cli.switches.quiet')
         switch [:v, :verbose],
-               negatable: false,
                desc: t('cli.switches.verbose')
       end
     end

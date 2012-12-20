@@ -34,9 +34,16 @@ en:
       flags:
         configuration: 'Path to the configuration file (absolute or relative to the source directory)'
         meta: 'Name of the directory metadata file (relative to each directory)'
+
+        image-sizes:
+          default: '100%,200x200>'
+          description: 'List of image version sizes - in the same order as the version names (comma separated)'
         image-types:
           default: '.jpg,.png'
           description: 'List of image file extensions (comma separated)'
+        image-versions:
+          default: 'original,thumbnail'
+          description: 'List of image version names (comma separated)'
 
         assets: 'Path to the assets directory (absolute or relative to the source directory)'
         output: 'Path to the directory where the compiled site will go (absolute or relative to the source directory)'
@@ -50,6 +57,8 @@ en:
       switches:
         include-assets: 'Copy the assets directory during compile'
         include-images: 'Process the images during compile'
+
+        use-local-file-paths: ''
 
         dry-run: 'Dry run - do not modify any files'
 

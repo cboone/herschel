@@ -33,7 +33,11 @@ module Herschel
                                       root_template: go[:'root-template'],
 
                                       meta_filename: go[:m],
-                                      image_types: go[:'image-types']
+                                      use_local_file_paths: go[:'use-local-file-paths'],
+
+                                      image_sizes: go[:'image-sizes'],
+                                      image_types: go[:'image-types'],
+                                      image_versions: go[:'image-versions']
 
       debug_options unless @commands.include? :debug_options
       @commands.each do |command|
@@ -43,7 +47,7 @@ module Herschel
 
     def analyze
       analyze_file_system
-      analyze_images
+      analyze_images unless skip_images
       analyze_source
       analyze_templates
     end
@@ -60,6 +64,10 @@ module Herschel
     def analyze_images
       debug 'IMAGES'
       info columns 'image types', file_system.image_types.join(', ')
+      info columns 'image versions', file_system.image_versions.inspect
+      file_system.source_images.each do |image|
+        info image.to_s
+      end
       debug ''
     end
 
@@ -69,9 +77,6 @@ module Herschel
         info source.to_s
         source.directories.each do |directory|
           info directory.to_s
-          directory.images.each do |image|
-            info image.to_s
-          end
         end
       end
       debug ''
@@ -98,7 +103,7 @@ module Herschel
     def compile
       compile_root
       compile_directories
-      
+
       assets unless skip_assets
       images unless skip_images
     end
@@ -141,6 +146,18 @@ module Herschel
 
     def images
       debug 'IMAGES'
+      debug columns 'image types', file_system.image_types.join(', ')
+      debug columns 'image versions', file_system.image_versions.inspect
+
+      file_system.source_images.each do |image|
+        debug columns 'source', image.path.to_s
+
+        image.versions.each do |version|
+          debug version.target_path
+
+          version.finalize
+        end
+      end
       debug ''
     end
 

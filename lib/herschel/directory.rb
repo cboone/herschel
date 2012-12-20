@@ -12,16 +12,18 @@ module Herschel
     end
 
     def absolute_url_path
-      return @absolute_url_path if @absolute_url_path
-
-      url_path = relative_path.to_s
-      if /\A \.\/ /x === url_path
-        @absolute_url_path = url_path[1..-1]
-      elsif url_path == '.'
-        @absolute_url_path = '/'
-      else
-        @absolute_url_path = '/' + url_path
-      end
+      @absolute_url_path = if file_system.use_local_file_paths?
+                             (target_path + target_file_name).to_s
+                           else
+                             url_path = relative_path.to_s
+                             if /\A \.\/ /x === url_path
+                               url_path[1..-1]
+                             elsif url_path == '.'
+                               '/'
+                             else
+                               '/' + url_path
+                             end
+                           end
     end
 
     def children
@@ -41,7 +43,7 @@ module Herschel
     end
 
     def compiled_file
-      @compiled_file ||= WorkingFile.new 'index.html', relative_path, file_system: file_system
+      @compiled_file ||= WorkingFile.new target_file_name, relative_path, file_system: file_system
     end
 
     def directories
@@ -91,6 +93,10 @@ module Herschel
 
     def root?
       root == self
+    end
+
+    def target_file_name
+      'index.html'
     end
 
     def target_path

@@ -14,6 +14,7 @@ require 'tmpdir'
 
 require 'tilt'
 require 'slim'
+require 'mini_magick'
 
 require 'herschel/version.rb'
 
@@ -23,6 +24,7 @@ require 'herschel/application/base'
 require 'herschel/file'
 require 'herschel/working_file'
 require 'herschel/image'
+require 'herschel/image_version'
 require 'herschel/directory'
 require 'herschel/template_directory'
 require 'herschel/file_system'

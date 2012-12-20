@@ -24,7 +24,7 @@ module Herschel
     end
 
     def excluded_directories
-      @excluded_directories ||= [target_directory, template_directory]
+      @excluded_directories ||= [assets_directory, target_directory, template_directory]
     end
 
     def file?(pathname)
@@ -57,12 +57,26 @@ module Herschel
       @image_types ||= (options[:image_types] || [])
     end
 
+    def image_versions
+      return @image_versions if @image_versions
+
+      @image_versions = {}
+      options[:image_versions].each_with_index do |version, index|
+        @image_versions[version] = options[:image_sizes][index]
+      end
+      @image_versions
+    end
+
     def meta_filename
       @meta_filename ||= options[:meta_filename]
     end
 
     def source_directory
       @source_directory ||= Directory.new options[:source_directory], file_system: self
+    end
+
+    def source_images
+      @source_images ||= (source_directory.images + source_directory.directories.map(&:images)).flatten
     end
 
     def subdirectories_within(directory)
@@ -115,6 +129,10 @@ module Herschel
         image: template_directory.template_for(:image),
         root: template_directory.template_for(:root)
       }
+    end
+
+    def use_local_file_paths?
+      @use_local_file_paths ||= options[:use_local_file_paths]
     end
 
     def visible?(pathname)
