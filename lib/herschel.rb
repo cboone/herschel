@@ -25,8 +25,12 @@ require 'herschel/file'
 require 'herschel/working_file'
 require 'herschel/image'
 require 'herschel/image_version'
+
 require 'herschel/directory'
+require 'herschel/assets_directory'
+require 'herschel/target_directory'
 require 'herschel/template_directory'
+
 require 'herschel/file_system'
 
 require 'herschel/rendering_scope'

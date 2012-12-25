@@ -10,5 +10,5 @@ body
 
   - galleries.each do |gallery|
     a href=gallery.path
-      img src=gallery.image_path
+      img src=gallery.image_path(:original)
       span = gallery.name

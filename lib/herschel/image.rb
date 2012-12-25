@@ -9,17 +9,23 @@ module Herschel
     end
 
     def image
-      @image ||= MiniMagick::Image.open path
+      @image ||= MiniMagick::Image.open source_path
     end
 
     def rendering_scope
       @rendering_scope ||= ImageRenderingScope.new self
     end
 
+    def version(name)
+      versions[name]
+    end
+
     def versions
-      @versions ||= file_system.image_versions.map do |name, dimensions|
-        ImageVersion.new self, name, dimensions, file_system: file_system
-      end
+      @versions ||= Hash[
+        file_system.image_versions.map do |name, dimensions|
+          [name, ImageVersion.new(self, name, dimensions, file_system: file_system)]
+        end
+      ]
     end
   end
 end

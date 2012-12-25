@@ -1,15 +1,15 @@
 require 'herschel'
 
 module Herschel
-  class FileSystem < Application::Base
-    attr_reader :options
+  class FileSystem
+    include Application::Base
 
     def initialize(options = {})
       @options = options.dup
     end
 
     def assets_directory
-      @assets_directory ||= Directory.new options[:assets_directory], file_system: self, root: options[:assets_directory].basename
+      @assets_directory ||= AssetsDirectory.new options[:assets_directory], file_system: self
     end
 
     def clean_up
@@ -37,16 +37,12 @@ module Herschel
       FileUtils.copy_file working_file.path, final_path
     end
 
-    def finalize_assets
-      FileUtils.cp_r assets_directory.path, target_directory.path
-    end
-
     def image?(pathname)
       file?(pathname) && image_types.include?(pathname.extname)
     end
 
     def images_within(directory)
-      directory.path.children.map do |child|
+      directory.source_path.children.map do |child|
         child if image? child
       end.compact.map do |pathname|
         Image.new pathname, file_system: self, root: directory.root
@@ -80,9 +76,9 @@ module Herschel
     end
 
     def subdirectories_within(directory)
-      directories = directory.path.children.map do |child|
+      directories = directory.source_path.children.map do |child|
         child if directory? child
-      end.compact - excluded_directories.map(&:path)
+      end.compact - excluded_directories.map(&:source_path)
 
       directories.map do |path|
         Directory.new path, file_system: self, root: directory.root
@@ -90,7 +86,7 @@ module Herschel
     end
 
     def target_directory
-      @target_directory ||= Directory.new options[:target_directory], file_system: self
+      @target_directory ||= TargetDirectory.new options[:target_directory], file_system: self
     end
 
     def template?(path)
@@ -138,5 +134,9 @@ module Herschel
     def visible?(pathname)
       pathname.basename.to_s[0] != '.'
     end
+
+    private
+
+    attr_reader :options
   end
 end

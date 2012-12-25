@@ -1,27 +1,45 @@
 module Herschel
   class ImageVersion
-    attr_reader :dimensions, :image, :name
+    attr_reader :dimensions, :file_system, :name, :source_image
 
     def initialize(image, name, dimensions, options = {})
+      @options = options.dup
       @dimensions = dimensions
-      @image = image
+      @file_system = @options[:file_system]
+      @source_image = image
       @name = name
     end
 
+    def absolute_url_path
+      @absolute_url_path ||= if file_system.use_local_file_paths?
+                               target_path.to_s
+                             else
+                               '/' + relative_path.to_s
+                             end
+    end
+
     def extension
-      image.target_path.extname
+      source_image.target_path.extname
     end
 
     def finalize
-      image.image.resize dimensions
-      image.image.write target_path
+      source_image.image.resize dimensions
+      source_image.image.write target_path
+    end
+
+    def rendering_scope
+      @rendering_scope ||= ImageRenderingScope.new self
     end
 
     def target_path
       return @target_path if @target_path
 
-      base_target_path = image.target_path.to_s
+      base_target_path = source_image.target_path.to_s
       @target_path = Pathname.new base_target_path.gsub(extension, "_#{name}#{extension}")
     end
+
+    private
+
+    attr_reader :options
   end
 end

@@ -1,14 +1,16 @@
 require 'herschel'
 
 module Herschel
-  class Directory < Application::Base
-    attr_reader :file_system, :options, :path, :root
+  class Directory
+    include Application::Base
 
-    def initialize(path, options = {})
+    attr_reader :file_system, :root, :source_path
+
+    def initialize(source_path, options = {})
       @options = options.dup
-      @path = Pathname.new ::File.expand_path path
       @file_system = @options[:file_system]
       @root = @options[:root] || self
+      @source_path = Pathname.new ::File.expand_path source_path
     end
 
     def absolute_url_path
@@ -16,7 +18,7 @@ module Herschel
                              (target_path + target_file_name).to_s
                            else
                              url_path = relative_path.to_s
-                             if /\A \.\/ /x === url_path
+                             if url_path[0..1] == './'
                                url_path[1..-1]
                              elsif url_path == '.'
                                '/'
@@ -78,7 +80,7 @@ module Herschel
     end
 
     def relative_path
-      @relative_path ||= path.relative_path_from root.path
+      @relative_path ||= source_path.relative_path_from root.source_path
     end
 
     def render
@@ -108,7 +110,11 @@ module Herschel
     end
 
     def to_s
-      path.to_s
+      source_path.to_s
     end
+
+    private
+
+    attr_reader :options
   end
 end

@@ -55,22 +55,12 @@ en:
         root-template: 'Path to the template used for the root page (relative to the template directory)'
 
       switches:
-        include-assets: 'Copy the assets directory during compile'
-        include-images: 'Process the images during compile'
-
-        use-local-file-paths: ''
-
         dry-run: 'Dry run - do not modify any files'
-
+        link-assets: ''
+        prevent-asset-caching: ''
+        skip-assets: 'Copy the assets directory during compile'
+        skip-images: 'Process the images during compile'
         quiet: 'Quiet mode'
+        use-local-file-paths: ''
         verbose: 'Verbose mode'
-
         version: 'Display the current version number'
-
-    gem:
-      author: 'Christopher Boone'
-      description: ''
-      email_address: 'chris@hypsometry.com'
-      home_page: 'https://github.com/cboone/herschel'
-      name: 'herschel'
-      summary: ''

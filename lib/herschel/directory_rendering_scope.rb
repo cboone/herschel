@@ -10,8 +10,8 @@ module Herschel
       @images ||= object.images.map &:rendering_scope
     end
 
-    def image_path
-      images.first.path
+    def image_path(version)
+      images.first.path version
     end
   end
 end

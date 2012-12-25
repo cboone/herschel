@@ -1,8 +1,10 @@
 require 'herschel'
 
 module Herschel
-  class Command < Application::Base
-    attr_reader :arguments, :commands, :file_system, :global_options, :skip_assets, :skip_images, :options
+  class Command
+    include Application::Base
+
+    attr_reader :arguments, :commands, :dry_run, :file_system, :global_options, :link_assets, :skip_assets, :skip_images, :options
 
     def initialize(*commands)
       @commands = commands.map do |command|
@@ -19,8 +21,10 @@ module Herschel
       @options = options
       @arguments = arguments
 
-      @skip_assets = go[:'skip-assets']
-      @skip_images = go[:'skip-images']
+      @dry_run = !!go[:'dry-run']
+      @link_assets = !!go[:'link-assets']
+      @skip_assets = !!go[:'skip-assets']
+      @skip_images = !!go[:'skip-images']
 
       @global_options[:file_system] =
         @file_system = FileSystem.new assets_directory: go[:A],
@@ -37,7 +41,7 @@ module Herschel
 
                                       image_sizes: go[:'image-sizes'],
                                       image_types: go[:'image-types'],
-                                      image_versions: go[:'image-versions']
+                                      image_versions: go[:'image-versions'].map(&:to_sym)
 
       debug_options unless @commands.include? :debug_options
       @commands.each do |command|
@@ -92,12 +96,14 @@ module Herschel
     end
 
     def assets
-      debug 'ASSETS'
+      debug "ASSETS - #{link_assets ? 'linking' : 'copying'}"
 
-      file_system.finalize_assets
+      file_system.assets_directory.finalize link_assets unless dry_run
 
-      debug columns 'from', file_system.assets_directory.path.to_s
-      debug columns 'to', (file_system.target_directory.path + file_system.assets_directory.path.basename).to_s
+      file_system.assets_directory.directories.each do |asset|
+        debug columns 'from', asset.source_path.to_s
+        debug columns 'to', asset.target_path.to_s
+      end
     end
 
     def compile
@@ -112,7 +118,7 @@ module Herschel
       debug 'COMPILE - ROOT'
 
       file_system.source_directory.compile
-      file_system.source_directory.finalize
+      file_system.source_directory.finalize unless dry_run
 
       debug columns 'from', file_system.source_directory.to_s
       debug columns 'through', file_system.source_directory.compiled_file.to_s
@@ -126,7 +132,7 @@ module Herschel
 
       file_system.source_directory.directories.each do |directory|
         directory.compile
-        directory.finalize
+        directory.finalize unless dry_run
 
         debug columns 'from', directory.to_s
         debug columns 'through', directory.compiled_file.to_s
@@ -155,7 +161,7 @@ module Herschel
         image.versions.each do |version|
           debug version.target_path
 
-          version.finalize
+          version.finalize unless dry_run
         end
       end
       debug ''

@@ -1,7 +1,5 @@
 module Herschel
   class RenderingScope
-    attr_reader :object
-
     def initialize(object)
       @object = object
     end
@@ -17,5 +15,9 @@ module Herschel
     def root
       @root ||= object.root.rendering_scope
     end
+
+    private
+
+    attr_reader :object
   end
 end

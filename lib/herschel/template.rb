@@ -2,10 +2,6 @@ require 'herschel'
 
 module Herschel
   class Template < File
-    def initialize(path, options = {})
-      super
-    end
-
     def render(rendering_scope)
       template.render rendering_scope
     end

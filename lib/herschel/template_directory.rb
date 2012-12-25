@@ -17,7 +17,7 @@ module Herschel
       return @templates if @templates
 
       patterns = Tilt.mappings.keys.map do |extension|
-        "#{path}/**/*.#{extension}"
+        "#{source_path}/**/*.#{extension}"
       end
 
       files = Dir.glob(patterns).map do |path|

@@ -2,13 +2,15 @@ require 'herschel'
 
 module Herschel
   class File
-    attr_reader :file_system, :path, :root
+    include Application::Base
 
-    def initialize(path, options = {})
+    attr_reader :file_system, :root, :source_path
+
+    def initialize(source_path, options = {})
       @options = options.dup
       @file_system = @options[:file_system]
-      @path = Pathname.new ::File.expand_path path
       @root = @options[:root]
+      @source_path = Pathname.new ::File.expand_path source_path
     end
 
     def absolute_url_path
@@ -24,7 +26,7 @@ module Herschel
     end
 
     def relative_path
-      @relative_path ||= path.relative_path_from root.path
+      @relative_path ||= source_path.relative_path_from root.source_path
     end
 
     def target_path
@@ -32,7 +34,7 @@ module Herschel
     end
 
     def to_s
-      path.to_s
+      source_path.to_s
     end
 
     private
