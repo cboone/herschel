@@ -12,6 +12,10 @@ module Herschel
       @image ||= MiniMagick::Image.open source_path
     end
 
+    def name
+      source_path.basename
+    end
+
     def rendering_scope
       @rendering_scope ||= ImageRenderingScope.new self
     end

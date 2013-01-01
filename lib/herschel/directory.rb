@@ -52,6 +52,16 @@ module Herschel
       @directories ||= file_system.subdirectories_within self
     end
 
+    def featured_image
+      if meta['featured']
+        images.find do |image|
+          image.name.to_s == meta['featured']
+        end
+      else
+        images.first
+      end
+    end
+
     def finalize
       @compiled_file.finalize
     end
@@ -67,7 +77,7 @@ module Herschel
     def meta
       return @meta if @meta
 
-      meta_file_name = path + file_system.meta_filename
+      meta_file_name = source_path + file_system.meta_filename
       if meta_file_name.exist?
         @meta = YAML.load_file meta_file_name
       else

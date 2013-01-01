@@ -2,8 +2,6 @@ module Herschel
   class CLI
     module Switches
       def declare_global_switches
-        switch :'prevent-asset-caching',
-               desc: t('cli.switches.prevent-asset-caching')
         switch :'link-assets',
                desc: t('cli.switches.link-assets')
         switch [:n, :'dry-run'],

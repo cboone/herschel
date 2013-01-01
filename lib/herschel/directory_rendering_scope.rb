@@ -11,7 +11,7 @@ module Herschel
     end
 
     def image_path(version)
-      images.first.path version
+      object.featured_image.rendering_scope.path version
     end
   end
 end

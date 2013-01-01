@@ -156,9 +156,9 @@ module Herschel
       debug columns 'image versions', file_system.image_versions.inspect
 
       file_system.source_images.each do |image|
-        debug columns 'source', image.path.to_s
+        debug columns 'source', image.source_path.to_s
 
-        image.versions.each do |version|
+        image.versions.each do |name, version|
           debug version.target_path
 
           version.finalize unless dry_run

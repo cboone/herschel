@@ -23,8 +23,12 @@ module Herschel
     end
 
     def finalize
-      source_image.image.resize dimensions
-      source_image.image.write target_path
+      image.resize dimensions
+      image.write target_path
+    end
+
+    def image
+      @image ||= MiniMagick::Image.open source_image.source_path
     end
 
     def rendering_scope

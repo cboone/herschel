@@ -34,7 +34,7 @@ module Herschel
     def finalize(working_file)
       final_path = working_file.target_path
       FileUtils.mkpath final_path.dirname
-      FileUtils.copy_file working_file.path, final_path
+      FileUtils.copy_file working_file.source_path, final_path
     end
 
     def image?(pathname)
